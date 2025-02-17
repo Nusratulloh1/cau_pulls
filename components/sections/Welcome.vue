@@ -1,7 +1,11 @@
 <template>
-    <div class="bg-blue-800 h-screen welcome"></div>
+    <div id="section1" class=" h-screen welcome">
+        <Navbar logo-type="blur" />
+    </div>
 </template>
 <script lang="ts" setup>
+import Navbar from '../navbar.vue';
+
 
 </script>
 <style lang="scss" scoped>

@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   app: {
 
     head: {
-      title: 'Cau Pulls - AI Medical Solutions',
+      title: 'CAU Pulls - AI Medical Solutions',
       link: [
         {
           rel: 'icon',

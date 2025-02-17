@@ -1,9 +1,9 @@
 <template>
-    <div class="bg-blue-400 h-screen"></div>
+    <div class="bg-white h-screen">
+        <Navbar logo-type="blue" />
+    </div>
 </template>
 <script lang="ts" setup>
-
+import Navbar from '../navbar.vue';
 </script>
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
