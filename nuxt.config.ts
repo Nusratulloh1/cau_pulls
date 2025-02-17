@@ -1,0 +1,44 @@
+// https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
+export default defineNuxtConfig({
+  app: {
+
+    head: {
+      title: 'Cau Pulls - AI Medical Solutions',
+      link: [
+        {
+          rel: 'icon',
+          type: 'image/x-icon',
+          href: '/favicon.ico',
+        },
+      ],
+    },
+  },
+
+  modules: [
+    '@pinia/nuxt',
+    '@nuxt/devtools',
+    '@nuxt/fonts',
+    'nuxt-svgo',
+    'nuxt-swiper',
+  ],
+  svgo: {
+    autoImportPath: '~/assets/images/svgs/',
+    // componentPrefix: 'i',
+  },
+  css: [
+    '~/assets/styles/css/tailwind.css',
+    '~/assets/styles/scss/main.scss',
+    'swiper/css', // Swiper CSS importi
+    'swiper/css/pagination', // Swiper pagination CSS importi
+    'swiper/css/navigation', // Swiper navigation CSS importi
+  ],
+
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
+  },
+
+  compatibilityDate: '2025-01-08',
+});
