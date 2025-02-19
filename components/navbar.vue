@@ -1,6 +1,6 @@
 <template>
     <div class="absolute w-full top-0 z-[99999]">
-        <nav class=" flex items-center justify-between py-8 px-4 sm:p-12">
+        <nav class=" flex items-center justify-between py-8 px-4 md:p-12">
             <div>
                 <CLogo :type="logoType" v-if="props.logoVisible" class="w-16 h-16 !fill-none" />
             </div>

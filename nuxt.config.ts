@@ -25,6 +25,11 @@ export default defineNuxtConfig({
     autoImportPath: '~/assets/images/svgs/',
     // componentPrefix: 'i',
   },
+  fonts: {
+    families: [
+      { name: 'Manrope', provider: 'google' },
+    ]
+  },
   css: [
     '~/assets/styles/css/tailwind.css',
     '~/assets/styles/scss/main.scss',

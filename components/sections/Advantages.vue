@@ -1,9 +1,182 @@
 <template>
-    <div class="bg-blue-700 h-screen"></div>
+    <div class=" h-screen bg-white relative flex items-center w-full justify-center">
+        <div class=" absolute w-full top-0 line">
+            <svg class=" mx-auto" width="14" height="120" viewBox="0 0 14 120" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <line opacity="0.5" x1="6.5" y1="115.045" x2="6.5" y2="-284.955" stroke="#62DCF2"
+                    stroke-dasharray="4 4" />
+                <circle cx="7" cy="113" r="6" fill="white" stroke="#62DCF2" stroke-width="2" />
+            </svg>
+
+
+        </div>
+
+        <Navbar logo-type="blue" />
+
+        <div class="content  text-center">
+            <h2 class="max-w-[870px] mx-auto text-2xl md:text-5xl  text-[#39444C]">
+                Современное <span class="text-[#62DCF2]">
+                    медицинское обслуживание
+                </span> с заботой о вас и вашем времени
+            </h2>
+            <div class="slides mt-8 md:mt-16" ref="">
+                <div v-for="slide in slides">
+                    <p class="text-[#39444C] text-lg md:text-2xl">
+                        {{ slide.title }}
+                    </p>
+                    <div class="slide">
+                        <div class="flex items-center gap-2 arrow">
+                            <div class="border border-[#39444C] rounded-xl w-9 h-9 flex items-center justify-center">
+                                <span class="text-[#39444C] ">
+                                    {{ slide.id }}
+                                </span>
+                            </div>
+                            <svg width="20" height="1" viewBox="0 0 20 1" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <line opacity="0.5" y1="0.5" x2="20" y2="0.5" stroke="#39444C" stroke-dasharray="4 4" />
+                            </svg>
+
+                        </div>
+                        <img :src="slide.img" alt="img">
+                        <div class=" md:text-start ml-5 content">
+                            <h3 class=" md:text-2xl font-semibold text-[#39444C]">
+                                Видео звонок терапевту
+                            </h3>
+                            <p class="text-[#39444C] text-sm md:text-lg max-w-[389px] mt-1 md:mt-3 opacity-50">
+                                Личное общение: обсудите ваше состояние с врачом, видя его в реальном времени, но без
+                                необходимости выходить из дома
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-2 arrow">
+                            <svg width="20" height="1" viewBox="0 0 20 1" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <line opacity="0.5" y1="0.5" x2="20" y2="0.5" stroke="#39444C" stroke-dasharray="4 4" />
+                            </svg>
+                            <div class="border border-[#39444C] rounded-xl w-9 h-9 flex items-center justify-center">
+                                <span class="text-[#39444C]">
+                                    {{ slide.id }}
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 <script lang="ts" setup>
+import Navbar from '../navbar.vue';
+import img1 from '@/assets/images/advantages/1.png';
+import img2 from '@/assets/images/advantages/2.png';
+import img3 from '@/assets/images/advantages/3.png';
 
+
+const slides = [
+    {
+        id: 1,
+        title: 'CAU Puls Телемедецина',
+        img: img1,
+        innerTitle: 'Видео звонок терапевту',
+        innerDesc: 'Личное общение: обсудите ваше состояние с врачом, видя его в реальном времени, но без необходимости выходить из дома'
+    },
+    // {
+    //     id: 2,
+    //     title: 'CAU Puls Телемедецина',
+    //     img: img2,
+    //     innerTitle: 'Видео звонок терапевту',
+    //     innerDesc: 'Личное общение: обсудите ваше состояние с врачом, видя его в реальном времени, но без необходимости выходить из дома'
+    // },
+    // {
+    //     id: 3,
+    //     title: 'CAU Puls Телемедецина',
+    //     img: img3,
+    //     innerTitle: 'Видео звонок терапевту',
+    //     innerDesc: 'Личное общение: обсудите ваше состояние с врачом, видя его в реальном времени, но без необходимости выходить из дома'
+    // },
+]
 </script>
 <style lang="scss" scoped>
+.slide {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 40px;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 
+    overflow: hidden;
+
+    img {
+        width: 600px;
+        height: 300px;
+        border-radius: 24px;
+        transition: transform 0.4s ease-in-out,
+            box-shadow 0.4s ease-in-out,
+            opacity 0.3s ease-in-out;
+    }
+
+    .content {
+        display: none;
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+        transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+    }
+
+    &:hover {
+        img {
+            filter: blur(2px);
+            /* Adds slight blur effect */
+            brightness: 0.98;
+        }
+
+        .content {
+            display: block !important;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .arrow {
+            .border {
+                border-color: #62DCF2;
+            }
+
+            svg {
+                line {
+                    stroke: #62DCF2;
+                }
+
+                // fill: #62DCF2;
+            }
+
+            span {
+                color: #62DCF2;
+            }
+        }
+    }
+
+    @media (max-width: 1025px) {
+        display: flex !important;
+        flex-direction: column !important;
+        margin-top: 20px;
+        gap: 25px;
+
+        img {
+            width: 85%;
+            height: auto !important;
+        }
+
+        .arrow {
+            flex-direction: column !important;
+            gap: 15px;
+
+            svg {
+                transform: rotate(90deg);
+            }
+        }
+
+
+    }
+}
 </style>

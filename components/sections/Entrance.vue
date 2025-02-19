@@ -58,8 +58,8 @@ onMounted(() => {
                 scale: 1.4,
                 duration: 0.9,
                 ease: 'power3.out',
-                // repeat: 1, // Repeat the pulsing effect indefinitely
-                yoyo: true, // Make the animation reverse after each pulse
+                // repeat: 1,
+                yoyo: true,
             })
             gsap.to(logo.value, {
                 opacity: 1,
