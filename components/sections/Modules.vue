@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white h-screen flex items-center justify-center relative" >
+    <div class="bg-white h-screen flex items-center justify-center relative">
         <div class=" absolute top-0 line">
             <svg class="h-[40vh] md:h-[30vh] xl:h-[35vh] 2xl:h-[40vh]" width="14" height="325" viewBox="0 0 14 325"
                 fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -108,4 +108,8 @@ onMounted(async () => {
 
 
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+img {
+    will-change: transform, opacity;
+}
+</style>

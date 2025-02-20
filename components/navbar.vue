@@ -1,6 +1,6 @@
 <template>
     <div class="absolute w-full top-0 z-[99999]">
-        <nav class=" flex items-center justify-between py-8 px-4 md:p-12">
+        <nav class=" flex items-center justify-between py-4 sm:py-8 px-4 md:p-12">
             <div>
                 <CLogo :type="logoType" v-if="props.logoVisible" class="w-16 h-16 !fill-none" />
             </div>
@@ -18,7 +18,7 @@
                         class="dropdown-menu absolute right-0 mt-2 w-28 bg-white shadow-lg rounded-md">
                         <ul>
                             <li v-for="lang in ['Uzbek', 'English', 'Russian']"
-                                class="p-2 hover:bg-gray-100 cursor-pointer  hover:text-[#62DCF2]">{{ lang }}</li>
+                                class="p-2 hover:bg-gray-100 text-black cursor-pointer  hover:text-[#62DCF2]">{{ lang }}</li>
                         </ul>
                     </div>
                 </transition>

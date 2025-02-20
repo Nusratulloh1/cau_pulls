@@ -8,7 +8,7 @@
         <Navbar logo-type="blur" />
         <div class="overlay" ref="welcomeContainer">
             <div
-                class="px-4 sm:px-12 h-full flex flex-wrap sm:flex-nowrap justify-center items-center sm:justify-between sm:items-end relative">
+                class="px-4 sm:px-12 h-full flex flex-wrap lg:flex-nowrap justify-center items-center lg:justify-between lg:items-end relative">
                 <div class=" text-center sm:text-start">
                     <div ref="title">
                         <h4 class=" text-xl sm:text-[32px] opacity-50">
@@ -28,11 +28,11 @@
                         Узнать больше
                     </button>
                 </div>
-                <div class=" absolute sm:relative bottom-4 sm:bottom-0 flex items-center flex-wrap gap-4 sm:block ">
+                <div class=" absolute lg:relative bottom-4 lg:bottom-0 flex items-center flex-wrap gap-4 lg:block ">
                     <p ref="downloadText" class=" w-[114px] sm:w-auto">
                         Скaчать можно тут
                     </p>
-                    <div class="flex items-center sm:mt-6 gap-3">
+                    <div class="flex items-center lg:mt-6 gap-3">
                         <button ref="downloadApple"
                             class=" bg-white rounded-[22px] font-bold text-[#39444C] p-3 sm:px-9  sm:py-4 ">
                             <svg class=" w-20 h-5 sm:w-auto sm:h-auto" width="98" height="23" viewBox="0 0 98 23"
@@ -161,7 +161,7 @@ onMounted(() => {
     // transform: translate(-50%, -50%);
     color: white;
 
-    @media (max-width: 640px) {
+    @media (max-width: 1025px) {
         height: 100%;
         bottom: 0%;
     }

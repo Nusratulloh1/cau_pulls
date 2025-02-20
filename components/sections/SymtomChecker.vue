@@ -70,8 +70,27 @@
 </template>
 
 <script lang="ts" setup>
+import { onMounted } from 'vue';
+import { gsap } from 'gsap';
 import Navbar from '../navbar.vue';
+
+onMounted(() => {
+    const tl = gsap.timeline({ defaults: { ease: 'power2.out', duration: 1 } });
+
+    // Animate Heading
+    tl.from('.left h3', { y: 50, opacity: 0 });
+
+    // Animate Paragraph
+    tl.from('.left p', { y: 50, opacity: 0 }, '-=0.8');
+
+    // Animate Button
+    tl.from('.left button', { y: 50, opacity: 0 }, '-=0.8');
+
+    // Animate Right Side Cards with stagger effect
+    tl.from('.right > div', { y: 50, opacity: 0, stagger: 0.2 }, '-=0.5');
+});
 </script>
+
 
 <style lang="scss" scoped>
 .welcome {
