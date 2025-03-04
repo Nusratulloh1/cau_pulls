@@ -1,13 +1,16 @@
 <template>
     <div class="h-screen bg-[#62DCF2] relative">
-        <Navbar :logo-visible="false" />
-        <img class="m-auto object-cover pt-[12vh] sm:pt-0 h-[83vh]  sm:h-screen " src="@/assets/images/bg-round.png" alt="rounder" ref="rounder">
+        <div ref="navBarEntr">
+            <Navbar :logo-visible="false" />
+        </div>
+        <img class="m-auto object-cover pt-[12vh] sm:pt-0 h-[83vh]  sm:h-screen " src="@/assets/images/bg-round.png"
+            alt="rounder" ref="rounder">
         <div class="absolute top-0 w-full h-full flex items-center justify-center">
             <div class="text-center sm:mt-16">
                 <div ref="logo">
                     <CLogo class=" w-[102px] sm:w-[130px] mx-auto" />
                 </div>
-                <p ref="title" class=" mt-0 sm:mt-6 text-white font-medium text-base sm:text-2xl">
+                <p ref="title" class=" mt-0 sm:mt-6 text-white font-medium text-base sm:text-2xl max-w-[297px] mx-auto">
                     Ваш надёжный партнёр <br> в вопросах здоровья
                 </p>
             </div>
@@ -34,62 +37,90 @@ const logo = ref<HTMLElement | null>(null)
 const button = ref<HTMLElement | null>(null)
 const rounder = ref<HTMLElement | null>(null)
 const title = ref<HTMLElement | null>(null)
-
+const navBarEntr = ref<HTMLElement | null>(null)
 const navigateSection = () => {
     const nextSection = document.querySelector('#section1');
     if (nextSection) {
         nextSection.scrollIntoView({ behavior: 'smooth' });
     }
 }
-
 onMounted(() => {
     // GSAP logo animation: fade in and scale up
     if (logo.value) {
-        gsap.from(logo.value, {
-            y: 100,
+        const tl = gsap.timeline({ ease: 'power3.out' });
+
+        tl.from(logo.value, {
+            y: 75,
             opacity: 0,
-            duration: 0.8,
-            ease: 'power3.out',
-            delay: 0.5,
+            scale: 1,
+            duration: 1,
+            ease: 'power4.out'
         })
-        setTimeout(() => {
-            gsap.from(logo.value, {
-                opacity: 1,
-                scale: 1.4,
-                duration: 0.9,
-                ease: 'power3.out',
-                // repeat: 1,
+            .to(logo.value, {
+                scale: 1.2,
+                duration: 0.3,
                 yoyo: true,
             })
-            gsap.to(logo.value, {
-                opacity: 1,
-                scale: 1,
-                duration: 1,
-                ease: 'power3.out',
-                // repeat: 1, // Repeat the pulsing effect indefinitely
-                yoyo: false, // Make the animation reverse after each pulse
+            .to(logo.value, {
+                scale: 0.8,
+                duration: 0.3,
+                // delay: 1,
+                yoyo: true,
             })
-        }, 1000);
+            .to(logo.value, {
+                scale: 1,
+                duration: 0.3,
+                // repeat: -1, // Infinite pulsing
+                yoyo: true,
+            });
     }
     if (rounder.value) {
         gsap.from(rounder.value, {
-            y: 10,
+            scale: 0.5,
             opacity: 0,
-            duration: 1,
-            ease: 'power3.out',
-            delay: 2,
+            duration: 1.5, // 0.8
+            ease: 'power4.out',
+            delay: 1.83,
         })
+    }
+    if (navBarEntr.value) {
+        gsap.from(navBarEntr.value, {
+            y: 26,
+            opacity: 0,
+            duration: 1.1,
+            ease: "power4.out",
+            delay: 1.84,
+        });
     }
     if (title.value) {
-        gsap.from(title.value, {
-            y: 50,
-            opacity: 0,
-            duration: 1,
-            ease: 'power3.out',
-            delay: 3,
-        })
+        const splitWords = (element: HTMLElement) => {
+            const words = element.innerText.split(" ");
+            element.innerHTML = words
+                .map((word) => `<span class="word" style="display: inline-block; opacity: 0;">${word}</span>`)
+                .join(" ");
+            return element.querySelectorAll(".word");
+        };
+
+        const textWords = splitWords(title.value);
+
+        gsap.fromTo(
+            textWords,
+            {
+                opacity: 0,
+                y: "50%", // Start below position
+                delay: 1.83,
+                duration: 0.5
+            },
+            {
+                opacity: 1,
+                y: "0%",
+                duration: 0.5, // Each word animates for 500ms
+                ease: "power3.out", // Smoother deceleration
+                stagger: 0.15, // 150ms delay between words
+                delay: 1.85,
+            }
+        );
     }
-    // GSAP button animation: slide in from bottom
     if (button.value) {
         gsap.from(button.value, {
             y: -40,
@@ -97,7 +128,7 @@ onMounted(() => {
             duration: 1.5,
             ease: 'power3.out',
             repeat: -1,
-            delay: 3.5,
+            delay: 2.52,
         })
     }
 

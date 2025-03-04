@@ -1,10 +1,10 @@
 <template>
     <div class="absolute w-full top-0 z-[99999]">
         <nav class=" flex items-center justify-between py-4 sm:py-8 px-4 md:p-12">
-            <div>
+            <div ref="navLogo">
                 <CLogo :type="logoType" v-if="props.logoVisible" class="w-16 h-16 !fill-none" />
             </div>
-            <div class="relative">
+            <div class="relative" ref="navBtn">
                 <button @click="toggleDropdown" :class="{ ' !border-[#39444C33] !text-[#39444C]': logoType == 'blue' }"
                     class=" flex items-center gap-1.5 rounded-[20px] capitalize text-white font-semibold border border-[#FFFFFF33] py-3 px-6 hover:bg-white hover:text-[#62DCF2]">
                     рус
@@ -18,7 +18,8 @@
                         class="dropdown-menu absolute right-0 mt-2 w-28 bg-white shadow-lg rounded-md">
                         <ul>
                             <li v-for="lang in ['Uzbek', 'English', 'Russian']"
-                                class="p-2 hover:bg-gray-100 text-black cursor-pointer  hover:text-[#62DCF2]">{{ lang }}</li>
+                                class="p-2 hover:bg-gray-100 text-black cursor-pointer  hover:text-[#62DCF2]">{{ lang }}
+                            </li>
                         </ul>
                     </div>
                 </transition>
@@ -29,9 +30,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import CLogo from '~/components/icons/CLogo.vue';
-
+import gsap from 'gsap'
 const props = defineProps({
     logoVisible: {
         type: Boolean,
@@ -46,10 +47,15 @@ const props = defineProps({
 });
 
 const isDropdownVisible = ref(false);
+const navLogo = ref<HTMLElement | null>(null);
+const navBtn = ref<HTMLElement | null>(null);
 
 function toggleDropdown() {
     isDropdownVisible.value = !isDropdownVisible.value;
 }
+
+onMounted(() => {
+});
 </script>
 
 <style scoped>

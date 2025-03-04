@@ -1,101 +1,169 @@
 <template>
-    <div class=" h-screen bg-white relative flex items-center w-full justify-center">
-        <div class=" absolute w-full top-0 line">
-            <svg class=" mx-auto" width="14" height="120" viewBox="0 0 14 120" fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <line opacity="0.5" x1="6.5" y1="115.045" x2="6.5" y2="-284.955" stroke="#62DCF2"
-                    stroke-dasharray="4 4" />
-                <circle cx="7" cy="113" r="6" fill="white" stroke="#62DCF2" stroke-width="2" />
-            </svg>
+    <div class="h-[100vh] bg-white">
+        <div ref="scrollContainer" class="h-screen relative flex items-center w-full justify-center !overflow-scroll">
+            <div class="absolute w-full top-0 line">
+                <svg class="mx-auto" width="14" height="120" viewBox="0 0 14 120" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <line opacity="0.5" x1="6.5" y1="115.045" x2="6.5" y2="-284.955" stroke="#62DCF2"
+                        stroke-dasharray="4 4" />
+                    <circle cx="7" cy="113" r="6" fill="white" stroke="#62DCF2" stroke-width="2" />
+                </svg>
+            </div>
 
+            <Navbar logo-type="blue" />
 
-        </div>
+            <div class="content text-center">
+                <h2 class="max-w-[870px] mx-auto text-2xl md:text-5xl text-[#39444C]">
+                    Современное <span class="text-[#62DCF2]">
+                        медицинское обслуживание
+                    </span> с заботой о вас и вашем времени {{ currentSlide }}
+                </h2>
 
-        <Navbar logo-type="blue" />
-
-        <div class="content  text-center">
-            <h2 class="max-w-[870px] mx-auto text-2xl md:text-5xl  text-[#39444C]">
-                Современное <span class="text-[#62DCF2]">
-                    медицинское обслуживание
-                </span> с заботой о вас и вашем времени
-            </h2>
-            <div class="slides mt-8 md:mt-16" ref="">
-                <div v-for="slide in slides">
-                    <p class="text-[#39444C] text-lg md:text-2xl">
-                        {{ slide.title }}
-                    </p>
-                    <div class="slide">
-                        <div class="flex items-center gap-2 arrow">
-                            <div class="border border-[#39444C] rounded-xl w-9 h-9 flex items-center justify-center">
-                                <span class="text-[#39444C] ">
-                                    {{ slide.id }}
-                                </span>
-                            </div>
-                            <svg width="20" height="1" viewBox="0 0 20 1" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <line opacity="0.5" y1="0.5" x2="20" y2="0.5" stroke="#39444C" stroke-dasharray="4 4" />
-                            </svg>
-
-                        </div>
-                        <img :src="slide.img" alt="img">
-                        <div class=" md:text-start ml-5 content">
-                            <h3 class=" md:text-2xl font-semibold text-[#39444C]">
-                                Видео звонок терапевту
-                            </h3>
-                            <p class="text-[#39444C] text-sm md:text-lg max-w-[389px] mt-1 md:mt-3 opacity-50">
-                                Личное общение: обсудите ваше состояние с врачом, видя его в реальном времени, но без
-                                необходимости выходить из дома
+                <div class="slides mt-8 md:mt-16">
+                    <div v-for="slide in slides" :key="slide.id">
+                        <template v-if="currentSlide === slide.id">
+                            <p class="text-[#39444C] text-lg md:text-2xl">
+                                {{ slide.title }}
                             </p>
-                        </div>
-                        <div class="flex items-center gap-2 arrow">
-                            <svg width="20" height="1" viewBox="0 0 20 1" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <line opacity="0.5" y1="0.5" x2="20" y2="0.5" stroke="#39444C" stroke-dasharray="4 4" />
-                            </svg>
-                            <div class="border border-[#39444C] rounded-xl w-9 h-9 flex items-center justify-center">
-                                <span class="text-[#39444C]">
-                                    {{ slide.id }}
-                                </span>
+                            <div class="slide">
+                                <div class="flex items-center gap-2 arrow">
+                                    <div
+                                        class="border border-[#39444C] rounded-xl w-9 h-9 flex items-center justify-center">
+                                        <span class="text-[#39444C]">
+                                            {{ slide.id }}
+                                        </span>
+                                    </div>
+                                    <svg width="20" height="1" viewBox="0 0 20 1" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <line opacity="0.5" y1="0.5" x2="20" y2="0.5" stroke="#39444C"
+                                            stroke-dasharray="4 4" />
+                                    </svg>
+                                </div>
+                                <img :src="slide.img" alt="img">
+                                <div class="md:text-start ml-5 content">
+                                    <h3 class="md:text-2xl font-semibold text-[#39444C]">
+                                        {{ slide.innerTitle }}
+                                    </h3>
+                                    <p class="text-[#39444C] text-sm md:text-lg max-w-[389px] mt-1 md:mt-3 opacity-50">
+                                        {{ slide.innerDesc }}
+                                    </p>
+                                </div>
+                                <div class="flex items-center gap-2 arrow">
+                                    <svg width="20" height="1" viewBox="0 0 20 1" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <line opacity="0.5" y1="0.5" x2="20" y2="0.5" stroke="#39444C"
+                                            stroke-dasharray="4 4" />
+                                    </svg>
+                                    <div
+                                        class="border border-[#39444C] rounded-xl w-9 h-9 flex items-center justify-center">
+                                        <span class="text-[#39444C]">
+                                            {{ slide.id }}
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
-
-                        </div>
+                        </template>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
+
 <script lang="ts" setup>
+import { ref, watch, onMounted } from 'vue';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Navbar from '../navbar.vue';
+
 import img1 from '@/assets/images/advantages/1.png';
 import img2 from '@/assets/images/advantages/2.png';
 import img3 from '@/assets/images/advantages/3.png';
 
+gsap.registerPlugin(ScrollTrigger);
 
+const props = defineProps<{ currentSlide: number, currentSection: number }>();
+const emit = defineEmits(['next']);
 const slides = [
     {
         id: 1,
         title: 'CAU Puls Телемедецина',
         img: img1,
         innerTitle: 'Видео звонок терапевту',
-        innerDesc: 'Личное общение: обсудите ваше состояние с врачом, видя его в реальном времени, но без необходимости выходить из дома'
+        innerDesc: 'Личное общение: обсудите ваше состояние с врачом, видя его в реальном времени, но без необходимости выходить из дома'
     },
-    // {
-    //     id: 2,
-    //     title: 'CAU Puls Телемедецина',
-    //     img: img2,
-    //     innerTitle: 'Видео звонок терапевту',
-    //     innerDesc: 'Личное общение: обсудите ваше состояние с врачом, видя его в реальном времени, но без необходимости выходить из дома'
-    // },
-    // {
-    //     id: 3,
-    //     title: 'CAU Puls Телемедецина',
-    //     img: img3,
-    //     innerTitle: 'Видео звонок терапевту',
-    //     innerDesc: 'Личное общение: обсудите ваше состояние с врачом, видя его в реальном времени, но без необходимости выходить из дома'
-    // },
-]
+    {
+        id: 2,
+        title: 'CAU Puls Телемедецина',
+        img: img2,
+        innerTitle: 'Видео звонок терапевту',
+        innerDesc: 'Личное общение: обсудите ваше состояние с врачом, видя его в реальном времени, но без необходимости выходить из дома'
+    },
+    {
+        id: 3,
+        title: 'CAU Puls Телемедецина',
+        img: img3,
+        innerTitle: 'Видео звонок терапевту',
+        innerDesc: 'Личное общение: обсудите ваше состояние с врачом, видя его в реальном времени, но без необходимости выходить из дома'
+    },
+    {
+        id: 4,
+        title: 'CAU Puls Телемедецина',
+        img: img3,
+        innerTitle: 'Видео звонок терапевту',
+        innerDesc: 'Личное общение: обсудите ваше состояние с врачом, видя его в реальном времени, но без необходимости выходить из дома'
+    },
+];
+
+const currentSlide = ref(1);
+const scrollContainer = ref<HTMLElement | null>(null);
+
+
+
+watch(() => props.currentSection, (value) => {
+    console.log('Updated Slide:', value);
+    if (value === 3) {
+        // document.body.style.overflow = 'hidden';
+        currentSlide.value = 1;
+        // const panels = document.querySelectorAll('.panel');
+        // panels.forEach((panel, index) => {
+        //     if (index > 3) {
+        //         panel.classList.add('!invisible');
+        //     } else {
+        //         panel.classList.remove('!invisible');
+        //     }
+        // });
+
+    }
+});
+
+onMounted(() => {
+    if (!scrollContainer.value) return;
+    console.log(scrollContainer.value.clientHeight, window.innerHeight);
+
+    ScrollTrigger.create({
+        trigger: scrollContainer.value,
+        start: "top top",
+        end: () => `+=${window.innerHeight * (slides.length - 1)}`, // Prevents exceeding slides.length
+        pin: true,
+        scrub: 1.5, // Smoother scrolling
+        onUpdate: (self) => {
+            const slideIndex = Math.min(Math.floor(self.progress * slides.length) + 1, slides.length);
+            currentSlide.value = slideIndex;
+            console.log(slideIndex);
+
+            if (slideIndex === slides.length) {
+                // const panels = document.querySelectorAll('.panel');
+                // panels.forEach((panel, index) => {
+                //     panel.classList.remove('!invisible');
+                // });
+                emit('next');
+            }
+        },
+    });
+});
 </script>
+
 <style lang="scss" scoped>
 .slide {
     display: inline-flex;
@@ -105,16 +173,13 @@ const slides = [
     margin-top: 40px;
     cursor: pointer;
     transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-
     overflow: hidden;
 
     img {
         width: 600px;
         height: 300px;
         border-radius: 24px;
-        transition: transform 0.4s ease-in-out,
-            box-shadow 0.4s ease-in-out,
-            opacity 0.3s ease-in-out;
+        transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out, opacity 0.3s ease-in-out;
     }
 
     .content {
@@ -127,7 +192,6 @@ const slides = [
     &:hover {
         img {
             filter: blur(2px);
-            /* Adds slight blur effect */
             brightness: 0.98;
         }
 
@@ -146,8 +210,6 @@ const slides = [
                 line {
                     stroke: #62DCF2;
                 }
-
-                // fill: #62DCF2;
             }
 
             span {
@@ -175,8 +237,6 @@ const slides = [
                 transform: rotate(90deg);
             }
         }
-
-
     }
 }
 </style>

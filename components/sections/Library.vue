@@ -89,7 +89,6 @@ onMounted(() => {
     // Heading and Paragraph
     gsap.from(".text-center h2", { y: 50, opacity: 0, duration: 1, delay: 0.5, ease: "power2.out" });
     gsap.from(".text-center p", { y: 50, opacity: 0, duration: 1, delay: 0.7, ease: "power2.out" });
-
     // Images animation
     gsap.from(".image", {
         scale: 0.8,

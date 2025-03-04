@@ -1,8 +1,9 @@
 <template>
   <ClientOnly>
     <div ref="container">
-      <section v-for="(comp, index) in sectionComponents" :key="index" ref="sections" class="panel">
-        <component :is="comp" />
+      <section v-for="(comp, index) in sectionComponents" :key="index" ref="sections" class="panel"
+        :id="index + 'panel'">
+        <component :is="comp" :currentSection="currentSection" @next="loadNext" />
       </section>
     </div>
   </ClientOnly>
@@ -30,17 +31,32 @@ const sectionComponents = shallowRef([
 const container = ref<HTMLElement | null>(null)
 const sections = ref<HTMLElement[]>([])
 let scrollTween: gsap.core.Tween | null = null
+const currentSection = ref(0)
+const pinSection = ref(false)
+
 
 function goToSection(index: number) {
   scrollTween = gsap.to(window, {
     scrollTo: { y: index * window.innerHeight, autoKill: false },
-    duration: 1.5,
+    duration: 1.2,
     ease: 'power2.out',
-    onComplete: () => (scrollTween = null),
+    onComplete: () => {
+      scrollTween = null
+      currentSection.value = index
+    },
     overwrite: true,
   })
 }
-
+const loadNext = () => {
+  pinSection.value = false
+  // sectionComponents.value = [
+  //   ...sectionComponents.value,
+  //   defineAsyncComponent(() => import('@/components/sections/SymtomChecker.vue')),
+  //   defineAsyncComponent(() => import('@/components/sections/Library.vue')),
+  //   defineAsyncComponent(() => import('@/components/sections/Screens.vue')),
+  //   defineAsyncComponent(() => import('@/components/sections/Bottom.vue')),
+  // ]
+}
 onMounted(async () => {
   await nextTick()
   if (!process.client || !container.value) return
@@ -50,6 +66,7 @@ onMounted(async () => {
       trigger: panel,
       start: "top bottom-=2",
       end: () => "+=" + (window.innerHeight * 2 - 4),
+      pin: pinSection.value,
       onToggle: (self) => self.isActive && !scrollTween && goToSection(index),
     })
   })

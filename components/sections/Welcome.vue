@@ -5,7 +5,9 @@
             <source src="@/assets/videos/1.mp4" type="video/mp4" />
             Your browser does not support the video tag.
         </video>
-        <Navbar logo-type="blur" />
+        <div ref="navWelcome">
+            <Navbar logo-type="blur" />
+        </div>
         <div class="overlay" ref="welcomeContainer">
             <div
                 class="px-4 sm:px-12 h-full flex flex-wrap lg:flex-nowrap justify-center items-center lg:justify-between lg:items-end relative">
@@ -80,59 +82,84 @@ const moreButton = ref(null);
 const downloadText = ref(null)
 const downloadApple = ref(null);
 const donwloadPlay = ref(null);
+const navWelcome = ref(null);
 
 onMounted(() => {
     gsap.registerPlugin(ScrollTrigger);
+
     const splitWords = (element: any) => {
         const words = element.innerText.split(" ");
         element.innerHTML = words.map((word: any) => `<span class="word">${word}</span>`).join(" ");
         return element.querySelectorAll(".word");
     };
 
-    // const titleWords = splitWords(title.value);
     const textWords = splitWords(text.value);
     const downloadWords = splitWords(downloadText.value);
+
     const tl = gsap.timeline({
         scrollTrigger: {
             trigger: welcomeContainer.value,
-            // start: "top 90%",
-            // end: "top 30%",
-            // scrub: true,
         },
     });
 
-    tl.from(title.value, {
+    tl.from(navWelcome.value, {
         opacity: 0,
-        y: 80,
-        ease: "power3.out"
+        y: 35,
+        duration: 1,
+        ease: "power4.out",
+        delay: 0.68,
     })
-        .to({}, { duration: 0 }) // Wait time
-
-        .from(textWords, {
+        .from(title.value, {
             opacity: 0,
-            y: 180,
-            stagger: 0.1,
-            ease: "power2.out"
-        })
-        .to({}, { duration: 0 }) // Wait time
-
-        .from(moreButton.value, { opacity: 0, y: 80, ease: "power3.out" })
-        .to({}, { duration: 0 }) // Wait time
-
-        .from(downloadWords, {
+            y: 100,
+            duration: 1,
+            ease: "power4.out",
+        }, "-=0.4") // Starts 0.4s after navWelcome animation starts
+        // .from(text.value, { opacity: 0, y: 50, duration: 0.5, ease: "power3.out" }, "-=0.5")
+        .fromTo(
+            textWords,
+            { opacity: 0, y: "50%", ease: "power3.out" },
+            {
+                opacity: 1,
+                y: "0%",
+                duration: 0.5,
+                ease: "power4.out",
+                stagger: 0.07, // Smooth sequential animation
+            },
+            "-=0.4"
+        )
+        .from(moreButton.value, {
             opacity: 0,
-            y: 80,
-            stagger: 0.1,
-            ease: "power3.out"
-        })
-        .to({}, { duration: 0 }) // Wait time
-
-        .from(downloadApple.value, { opacity: 0, y: 80, ease: "power3.out" })
-        .to({}, { duration: 0 }) // Wait time
-
-        .from(donwloadPlay.value, { opacity: 0, y: 80, ease: "power3.out" })
-        .to({}, { duration: 0 })
+            y: 32,
+            duration: 1,
+            ease: "power4.out",
+        }, "-=0.2")
+        .from(downloadApple.value, {
+            opacity: 0,
+            y: 32,
+            duration: 1,
+            ease: "power4.out",
+        }, "-=0.8") // Overlapping animations
+        .from(donwloadPlay.value, {
+            opacity: 0,
+            y: 32,
+            duration: 1,
+            ease: "power4.out",
+        }, "-=0.8")
+        .fromTo(
+            downloadWords,
+            { opacity: 0, y: "50%" },
+            {
+                opacity: 1,
+                y: "0%",
+                duration: 0.5,
+                ease: "power4.out",
+                stagger: 0.07,
+            },
+            "-=0.4"
+        );
 });
+
 </script>
 
 <style lang="scss" scoped>
