@@ -11,13 +11,15 @@
 
 
         </div>
-        <Navbar logo-type="blue" />
+        <div ref="navLib">
+            <Navbar logo-type="blue" />
+        </div>
         <div class=" text-center pt-16 xl:pt-10 2xl:pt-0 container px-4 md:px-0">
             <div class=" max-w-[668px] mx-auto">
-                <h2 class=" text-[#39444C] text-2xl sm:text-2xl md:text-4xl 2xl:text-5xl 2xl:leading-[57px]">
+                <h2 ref="titleLib" class=" text-[#39444C] text-2xl sm:text-2xl md:text-4xl 2xl:text-5xl 2xl:leading-[57px]">
                     Медицинская библиотека и рекомендации врачей
                 </h2>
-                <p class=" text-sm sm:text-base xl:text-lg text-[#39444C] mt-2 sm:mt-4">
+                <p ref="textLib" class=" text-sm sm:text-base xl:text-lg text-[#39444C] mt-2 sm:mt-4">
                     460+ заболеваний, структурированная информация и видео от экспертов, которые помогут лучше понять
                     своё состояние
                 </p>
@@ -79,9 +81,12 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
 import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Navbar from '../navbar.vue';
-const liblaryContainer = ref(null)
 
+gsap.registerPlugin(ScrollTrigger);
+const liblaryContainer = ref(null)
+const navLib = ref(null)
 onMounted(() => {
     // Line animation
     gsap.fromTo(".line line", { strokeDashoffset: 500, strokeDasharray: "4 4" }, { strokeDashoffset: 0, duration: 2, ease: "power2.inOut" });

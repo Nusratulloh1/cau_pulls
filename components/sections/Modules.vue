@@ -1,6 +1,6 @@
 <template>
-    <div class="bg-white h-screen flex items-center justify-center relative">
-        <div class=" absolute top-0 line" ref="lineSvg">
+    <div class="bg-white h-screen flex items-center justify-center relative" >
+        <div class=" absolute top-0 line moduleDiv" ref="lineSvg">
             <svg class="h-[40vh] md:h-[30vh] xl:h-[35vh] 2xl:h-[40vh]" width="14" height="325" viewBox="0 0 14 325"
                 fill="none" xmlns="http://www.w3.org/2000/svg">
                 <line opacity="0.5" x1="6.5" y1="320.045" x2="6.5" y2="-79.9546" stroke="#62DCF2"
@@ -10,11 +10,11 @@
 
         </div>
 
-        <div class=" absolute w-full top-0">
+        <div class=" absolute w-full top-0 moduleDiv">
             <Navbar logo-type="blue" />
         </div>
 
-        <div class=" text-center px-5" ref="modulesContainer">
+        <div class=" text-center px-5 moduleDiv" ref="modulesContainer">
             <h2 ref="title" class=" text-[#39444C] text-2xl md:text-5xl max-w-[560px] mx-auto">
                 Все возможности для вашего здоровья
             </h2>
@@ -22,7 +22,7 @@
                 Инновации и технологии, которые делают заботу о здоровье простой и доступной каждому
             </p>
         </div>
-        <div class="absolute top-0 left-0 w-full h-full" ref="images">
+        <div class="absolute top-0 left-0 w-full h-full moduleDiv" ref="images">
 
             <img ref="image1" class="absolute top-24 md:top-0 left-[40%] w-[200px] md:w-[19vw] mx-auto"
                 src="@/assets/images/modules/3.png" alt="28vw">
@@ -62,7 +62,6 @@ const images = ref(null)
 const modulesContainer = ref(null);
 
 onMounted(() => {
-    gsap.registerPlugin(ScrollTrigger);
 
     const tl = gsap.timeline({
         scrollTrigger: {
@@ -113,10 +112,10 @@ onMounted(() => {
             ease: "power4.out",
             stagger: 0.10, // Smooth sequential animation
         },
-        "-=0.4"
+        "-=0.8"
     )
     // Text Animation (Slight Delay)
-    tl.from(text.value, { opacity: 0, y: 50, duration: 1, ease: "power3.out" }, "-=0.8");
+    tl.from(text.value, { opacity: 0, y: 50, duration: 1, ease: "power3.out" }, "-=1");
 
     // Images Animation (Grow & Fade)
     tl.fromTo(
@@ -124,6 +123,7 @@ onMounted(() => {
         { opacity: 0, scale: 0.5 }, // Start: Hidden, Scaled Down
         { opacity: 1, scale: 1, duration: 2.1, ease: "power4.out" } // Grow & Fade
     );
+    
 });
 
 </script>
