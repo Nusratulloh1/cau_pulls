@@ -74,8 +74,8 @@ onMounted(() => {
     // Line Animation
     tl.fromTo(
         lineSvg.value,
-        { scaleY: 0, transformOrigin: "top" },
-        { scaleY: 1, duration: 0.8, ease: "power4.out" }
+        { scaleY: 0, transformOrigin: "top", delay: 0.5 },
+        { scaleY: 1, duration: 0.8, ease: "power4.out", delay: 0.5 }
     );
 
     // Split Text Function

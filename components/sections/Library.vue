@@ -1,5 +1,5 @@
 <template>
-    <div class=" h-screen bg-white flex items-center justify-center" ref="liblaryContainer">
+    <div class=" h-screen bg-white flex items-center justify-center relative" ref="liblaryContainer">
         <div class=" absolute w-full top-0 line">
             <svg class=" mx-auto" width="14" height="120" viewBox="0 0 14 120" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
@@ -11,12 +11,11 @@
 
 
         </div>
-        <div ref="navLib">
-            <Navbar logo-type="blue" />
-        </div>
-        <div class=" text-center pt-16 xl:pt-10 2xl:pt-0 container px-4 md:px-0">
+        <Navbar ref="navLib" logo-type="blue" />
+        <div class=" text-center pt-16 xl:pt-10 2xl:pt-0 container px-4 md:px-0 liblaryDiv">
             <div class=" max-w-[668px] mx-auto">
-                <h2 ref="titleLib" class=" text-[#39444C] text-2xl sm:text-2xl md:text-4xl 2xl:text-5xl 2xl:leading-[57px]">
+                <h2 ref="titleLib"
+                    class=" text-[#39444C] text-2xl sm:text-2xl md:text-4xl 2xl:text-5xl 2xl:leading-[57px]">
                     Медицинская библиотека и рекомендации врачей
                 </h2>
                 <p ref="textLib" class=" text-sm sm:text-base xl:text-lg text-[#39444C] mt-2 sm:mt-4">
@@ -24,7 +23,8 @@
                     своё состояние
                 </p>
             </div>
-            <div class="images grid grid-cols-2 md:grid-cols-4 px-4 gap-3 md:gap-4 lg:gap-6 mt-6 sm:mt-10 xl:mt-20">
+            <div ref="images"
+                class="images grid grid-cols-2 md:grid-cols-4 px-4 gap-3 md:gap-4 lg:gap-6 mt-6 sm:mt-10 xl:mt-20">
                 <div class="box">
                     <div class="image">
                         <img src="@/assets/images/liblary/1.png" alt="1">
@@ -86,33 +86,69 @@ import Navbar from '../navbar.vue';
 
 gsap.registerPlugin(ScrollTrigger);
 const liblaryContainer = ref(null)
+const titleLib = ref(null)
+const textLib = ref(null)
 const navLib = ref(null)
 onMounted(() => {
-    // Line animation
-    gsap.fromTo(".line line", { strokeDashoffset: 500, strokeDasharray: "4 4" }, { strokeDashoffset: 0, duration: 2, ease: "power2.inOut" });
+    // Split Text Function
+    const splitWords = (element: any) => {
+        const words = element.innerText.split(" ");
+        element.innerHTML = words.map((word: any) => `<span class="word">${word}</span>`).join(" ");
+        return element.querySelectorAll(".word");
+    };
 
-    // Heading and Paragraph
-    gsap.from(".text-center h2", { y: 50, opacity: 0, duration: 1, delay: 0.5, ease: "power2.out" });
-    gsap.from(".text-center p", { y: 50, opacity: 0, duration: 1, delay: 0.7, ease: "power2.out" });
-    // Images animation
-    gsap.from(".image", {
-        scale: 0.8,
+    const titleWords = splitWords(titleLib.value);
+    const textWords = splitWords(textLib.value);
+    const tl = gsap.timeline({
+        scrollTrigger: {
+            trigger: liblaryContainer.value,
+            // start: "top 85%",
+            // toggleActions: "play none none reverse",
+        },
+    });
+
+    tl.from(navLib.value, {
         opacity: 0,
+        y: 35,
         duration: 1,
-        stagger: 0.2,
-        ease: "back.out(1.7)",
-        delay: 0.8
-    });
+        ease: "power4.out",
+        delay: 0.5,
+    })
 
-    // "460+" Box pulse
-    gsap.to(".more", {
-        scale: 1.05,
+    tl.fromTo(
+        titleWords,
+        { opacity: 0, y: 50, ease: "power3.out" },
+        {
+            opacity: 1,
+            y: 50,
+            duration: 0.5,
+            ease: "power4.out",
+            stagger: 0.15, // Smooth sequential animation
+        },
+    )
+    tl.from(titleLib.value, { opacity: 0, y: 50, duration: 1.5, ease: "power3.out" }, "-=1")
+    tl.fromTo(
+        textWords,
+        { opacity: 0, y: 50, ease: "power3.out" },
+        {
+            opacity: 1,
+            y: 50,
+            duration: 0.5,
+            ease: "power4.out",
+            stagger: 0.10, // Smooth sequential animation
+        },
+        "-=0.8"
+    )
+    // Text Animation (Slight Delay)
+    tl.from(textLib.value, { opacity: 0, y: 50, duration: 1, ease: "power3.out" }, "-=1")
+    tl.from(".box", {
+        opacity: 0,
+        y: 35,
         duration: 1,
-        repeat: -1,
-        yoyo: true,
-        ease: "power1.inOut",
-        delay: 1.5
-    });
+        ease: "power4.out",
+        stagger: 0.5,
+    })
+
 });
 </script>
 

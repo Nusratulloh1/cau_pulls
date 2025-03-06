@@ -8,12 +8,12 @@
                 <circle cx="7" cy="113" r="6" fill="white" stroke="#62DCF2" stroke-width="2" />
             </svg>
 
-            <div class=" text-center p-4 md:p-12">
-                <h2>
+            <div class=" text-center p-4 md:p-12" ref="screenContainer">
+                <h2 ref="titleSc">
                     Самая полная картина вашего <span>здоровья</span>, доступная как никогда раньше
                 </h2>
                 <div class="w-full mt-6 sm:mt-16">
-                    <svg class=" w-[100px] md:w-[162px] mx-auto" width="162" height="50" viewBox="0 0 162 50" fill="none"
+                    <svg ref="svgSc" class=" w-[100px] md:w-[162px] mx-auto" width="162" height="50" viewBox="0 0 162 50" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_60_763)">
                             <path
@@ -59,9 +59,8 @@
                             </clipPath>
                         </defs>
                     </svg>
-
                 </div>
-                <img class=" w-[90%] sm:w-[50%] lg:w-[30%] mx-auto mt-10 md:mt-16" src="@/assets/images/screens/1.png" alt="screen">
+                <img ref="imgSc" class=" w-[90%] sm:w-[50%] lg:w-[30%] mx-auto mt-10 md:mt-16" src="@/assets/images/screens/1.png" alt="screen">
             </div>
 
         </div>
@@ -70,6 +69,45 @@
 </template>
 <script lang="ts" setup>
 import Navbar from '../navbar.vue';
+import { ref, onMounted } from 'vue';
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
+const screenContainer = ref<HTMLElement | null>(null);
+const titleSc = ref<HTMLElement | null>(null);
+const svgSc = ref<HTMLElement | null>(null);
+const imgSc = ref<HTMLElement | null>(null);
+
+
+onMounted(() => {
+    const tl = gsap.timeline({
+        scrollTrigger: {
+            trigger: screenContainer.value,
+            // start: "top 85%", // Trigger when 85% of the section is in view
+            // toggleActions: "play none none reverse",
+        },
+    });
+
+    tl.from(titleSc.value, {
+        opacity: 0,
+        y: 100,
+        duration: 1,
+    })
+        .from(svgSc.value, {
+            opacity: 0,
+            y: 100,
+            duration: 1,
+        }, "-=0.5")
+        .from(imgSc.value, {
+            opacity: 0,
+            y: 100,
+            duration: 1,
+        }, "-=0.5");
+
+})
+
 </script>
 <style lang="scss" scoped>
 h2 {

@@ -18,8 +18,8 @@ import ScrollToPlugin from 'gsap/ScrollToPlugin'
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
 
 const sectionComponents = shallowRef([
-  // defineAsyncComponent(() => import('@/components/sections/Entrance.vue')),
-  // defineAsyncComponent(() => import('@/components/sections/Welcome.vue')),
+  defineAsyncComponent(() => import('@/components/sections/Entrance.vue')),
+  defineAsyncComponent(() => import('@/components/sections/Welcome.vue')),
   defineAsyncComponent(() => import('@/components/sections/Modules.vue')),
   defineAsyncComponent(() => import('@/components/sections/Advantages.vue')),
   defineAsyncComponent(() => import('@/components/sections/SymtomChecker.vue')),
@@ -39,9 +39,24 @@ const pinSection = ref(false)
 function goToSection(index: number) {
   const moduleDivs = document.querySelectorAll('.moduleDiv')
   const advantage = document.querySelectorAll('.advantageDiv')
-
-  if (index == 1) { // 3
-    gsap.to(moduleDivs, {
+  const liblaryDiv = document.querySelectorAll('.liblaryDiv')
+  const videoBg: any = document.querySelector('.video-bg')
+  if (index <= currentSection.value) {
+    // Do nothing when going back
+    scrollTween = gsap.to(window, {
+      scrollTo: { y: index * window.innerHeight, autoKill: false },
+      duration: 1.4,
+      ease: 'power2.out',
+      onComplete: () => {
+        scrollTween = null;
+        currentSection.value = index;
+      },
+      overwrite: true,
+    });
+    return;
+  }
+  else if (index == 3 || index == 6) { // 3 || 6
+    gsap.to(index == 3 ? moduleDivs : liblaryDiv, {
       opacity: 0,
       y: -515.48,
       duration: 1,
@@ -57,7 +72,7 @@ function goToSection(index: number) {
       },
       overwrite: true,
     });
-    gsap.to(moduleDivs, {
+    gsap.to(index == 3 ? moduleDivs : liblaryDiv, {
       opacity: 1,
       y: 0,
       duration: 0.8,
@@ -65,35 +80,40 @@ function goToSection(index: number) {
       delay: 2.5,
     });
   }
-  else if (index == 2) {
+  else if (index == 4) {
     gsap.to(advantage, {
       opacity: 0,
-      y: -1531,
-      duration: 1,
-      ease: "power4.in",
+      y: -window.innerHeight * 1.2, // Adjusted for smoother motion
+      duration: 2, // Slightly longer duration for fluidity
+      ease: "power3.inOut", // Smoother easing effect
     });
     scrollTween = gsap.to(window, {
       scrollTo: { y: index * window.innerHeight, autoKill: false },
-      duration: 2,
+      duration: 3,
       ease: "expo.inOut",
       onComplete: () => {
         scrollTween = null;
         currentSection.value = index;
+        // play video
+        videoBg.muted = true;
+        videoBg.autoplay = true;
+        videoBg.setAttribute("autoplay", "true");
+        videoBg.play().catch((err: any) => console.warn("Autoplay blocked:", err));
       },
       overwrite: true,
     });
     gsap.to(advantage, {
       opacity: 1,
       y: 0,
-      duration: 0.8,
+      duration: 1,
       ease: undefined,
-      delay: 2,
+      delay: 3,
     });
   }
   else {
     scrollTween = gsap.to(window, {
       scrollTo: { y: index * window.innerHeight, autoKill: false },
-      duration: 1.2,
+      duration: 1.4,
       ease: 'power2.out',
       onComplete: () => {
         scrollTween = null
