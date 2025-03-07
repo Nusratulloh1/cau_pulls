@@ -13,8 +13,8 @@
                     Самая полная картина вашего <span>здоровья</span>, доступная как никогда раньше
                 </h2>
                 <div class="w-full mt-6 sm:mt-16">
-                    <svg ref="svgSc" class=" w-[100px] md:w-[162px] mx-auto" width="162" height="50" viewBox="0 0 162 50" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
+                    <svg ref="svgSc" class=" w-[100px] md:w-[162px] mx-auto" width="162" height="50"
+                        viewBox="0 0 162 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_60_763)">
                             <path
                                 d="M48.4671 24.9999C48.4671 12.2829 38.0632 1.97363 25.2294 1.97363C12.3956 1.97363 1.9917 12.2829 1.9917 24.9999C1.9917 37.717 12.3956 48.0263 25.2294 48.0263C38.0632 48.0263 48.4671 37.717 48.4671 24.9999Z"
@@ -60,7 +60,8 @@
                         </defs>
                     </svg>
                 </div>
-                <img ref="imgSc" class=" w-[90%] sm:w-[50%] lg:w-[30%] mx-auto mt-10 md:mt-16" src="@/assets/images/screens/1.png" alt="screen">
+                <img ref="imgSc" class=" w-[90%] sm:w-[50%] lg:w-[30%] mx-auto mt-10 md:mt-16"
+                    src="@/assets/images/screens/1.png" alt="screen">
             </div>
 
         </div>
@@ -89,22 +90,49 @@ onMounted(() => {
             // toggleActions: "play none none reverse",
         },
     });
+    const splitWords = (element: any) => {
+        const words = element.innerText.split(" ");
+        element.innerHTML = words.map((word: any) => `<span class="word">${word}</span>`).join(" ");
+        return element.querySelectorAll(".word");
+    };
 
-    tl.from(titleSc.value, {
-        opacity: 0,
-        y: 100,
-        duration: 1,
-    })
-        .from(svgSc.value, {
+    const titleWords = splitWords(titleSc.value);
+    tl.fromTo(
+        titleWords,
+        { opacity: 0, y: 50, ease: "power3.out", delay: 1.5 },
+        {
+            opacity: 1,
+            y: 50,
+            duration: 0.5,
+            ease: "power4.out",
+            stagger: 0.15, // Smooth sequential animation
+            delay: 1.7,
+        }
+    )
+    tl
+        .from(titleSc.value, {
             opacity: 0,
             y: 100,
-            duration: 1,
-        }, "-=0.5")
+            duration: 2,
+            // delay: 2
+        },
+            "-=1.5")
+        .fromTo(
+            svgSc.value,
+            { opacity: 0, scale: 0.5 }, // Start: Hidden, Scaled Down
+            {
+                opacity: 1,
+                scale: 1,
+                duration: 0.8, // Animation Duration
+                ease: "power4.out", // Slow down at the end
+            }
+        )
         .from(imgSc.value, {
             opacity: 0,
-            y: 100,
+            y: 240,
             duration: 1,
-        }, "-=0.5");
+            ease: "power4.out"
+        });
 
 })
 

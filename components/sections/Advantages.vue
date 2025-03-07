@@ -1,6 +1,6 @@
 <template>
     <div class="h-[100vh] bg-white overflow-hidden">
-        <div ref="scrollContainer"  class="h-screen relative flex items-center w-full justify-center !overflow-scroll">
+        <div ref="scrollContainer" class="h-screen relative flex items-center w-full justify-center !overflow-scroll">
             <div class="absolute w-full top-0 line advantageDiv" ref="lineSvg">
                 <svg class="mx-auto" width="14" height="120" viewBox="0 0 14 120" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
@@ -158,6 +158,14 @@ onMounted(() => {
     const tl = gsap.timeline({
         scrollTrigger: {
             trigger: advantageContainer.value,
+            // start: "top top",
+            // end: "+=3000px",
+            // pin: true,
+            // pinSpacing: true,
+            // anticipatePin: 1,
+            // scrub: 0.5,
+            // invalidateOnRefresh: true,
+            // markers: true
         },
     })
     // tl.from(advantagesNav.value, {
@@ -202,6 +210,21 @@ onMounted(() => {
     tl.from(text, { opacity: 0, y: 50, duration: 1, ease: "power3.out" }, "-=1");
     const slide: any = slideAd.value?.[0]
     tl.from(slide, { opacity: 0, y: 509, duration: 1, ease: "power4.out" });
+  // should work after tl animations done
+    const nexttl = gsap.timeline({
+        scrollTrigger: {
+            trigger: advantageContainer.value,
+            start: "top top",
+            end: "+=3000px",
+            pin: true,
+            pinSpacing: true,
+            anticipatePin: 1,
+            scrub: 0.5,
+            invalidateOnRefresh: true,
+            markers: true
+        },
+    })
+
 
 });
 </script>

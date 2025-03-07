@@ -1,12 +1,12 @@
 <template>
     <div class=" h-screen bg-white flex items-center justify-center">
         <Navbar logo-type="blue" />
-        <div class="overlay px-4 pb-20">
-            <h2>
+        <div class="overlay px-4 pb-20" ref="bottomContainer">
+            <h2 ref="titleBottom">
                 <span>Современные технологии</span> и <span>забота</span>, чтобы сделать медицину <span>ближе</span>
                 <span>и удобнее</span> для вас
             </h2>
-            <div class="flex items-center md:justify-center mt-5 sm:mt-12 gap-3">
+            <div ref="btnsBottom" class="flex items-center md:justify-center mt-5 sm:mt-12 gap-3">
                 <button ref="downloadApple" class=" bg-[#62DCF2] rounded-[22px] font-bold text-white p-3 sm:p-5 ">
                     <svg class=" w-20 h-5 sm:w-auto sm:h-auto" width="99" height="23" viewBox="0 0 99 23" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
@@ -36,7 +36,7 @@
             </div>
 
         </div>
-        <footer
+        <footer ref="footerBottom"
             class="absolute bottom-12 w-full flex flex-wrap gap-4 md:items-center justify-between conatiner mx-auto px-4 md:px-12">
             <button ref="moreButton"
                 class=" bg-[#39444C] rounded-[22px] font-bold text-white sm:text-xl px-4 sm:px-9 py-3 !leading-0 sm:py-4">
@@ -86,6 +86,65 @@
 </template>
 <script lang="ts" setup>
 import Navbar from '../navbar.vue';
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { onMounted } from 'vue';
+
+gsap.registerPlugin(ScrollTrigger);
+
+const titleBottom = ref(null);
+const footerBottom = ref(null);
+const btnsBottom = ref(null);
+const bottomContainer = ref(null);
+
+onMounted(() => {
+    const tl = gsap.timeline({
+        scrollTrigger: {
+            trigger: bottomContainer.value,
+            // start: "top 85%", // Trigger when 85% of the section is in view
+            // toggleActions: "play none none reverse",
+        },
+    });
+    const splitWords = (element: any) => {
+        const words = element.innerText.split(" ");
+        element.innerHTML = words.map((word: any) => `<span class="word">${word}</span>`).join(" ");
+        return element.querySelectorAll(".word");
+    };
+
+    const titleWords = splitWords(titleBottom.value);
+    tl.fromTo(
+        titleWords,
+        { opacity: 0, y: 50, ease: "power3.out", delay: 1.5 },
+        {
+            opacity: 1,
+            y: 50,
+            duration: 0.5,
+            ease: "power4.out",
+            stagger: 0.15, // Smooth sequential animation
+            delay: 1.7,
+        }
+    )
+    tl
+        .from(titleBottom.value, {
+            opacity: 0,
+            y: 100,
+            duration: 2,
+            // delay: 2
+        },
+            "-=1.5")
+        .from(btnsBottom.value, {
+            opacity: 0,
+            y: 31,
+            duration: 1,
+            ease: "power4.out"
+        })
+        .from(footerBottom.value, {
+            opacity: 0,
+            y: 31,
+            duration: 1,
+            ease: "power4.out"
+        });
+})
 </script>
 <style lang="scss" scoped>
 h2 {

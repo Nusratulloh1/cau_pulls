@@ -1604,7 +1604,7 @@ onMounted(() => {
     })
     tl.from(svgRound.value, {
         opacity: 0,
-        duration: 6,
+        duration: 3 ,
         ease: "power4.out",
     });
     tl.fromTo(

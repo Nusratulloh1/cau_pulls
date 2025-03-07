@@ -18,8 +18,8 @@ import ScrollToPlugin from 'gsap/ScrollToPlugin'
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
 
 const sectionComponents = shallowRef([
-  defineAsyncComponent(() => import('@/components/sections/Entrance.vue')),
-  defineAsyncComponent(() => import('@/components/sections/Welcome.vue')),
+  // defineAsyncComponent(() => import('@/components/sections/Entrance.vue')),
+  // defineAsyncComponent(() => import('@/components/sections/Welcome.vue')),
   defineAsyncComponent(() => import('@/components/sections/Modules.vue')),
   defineAsyncComponent(() => import('@/components/sections/Advantages.vue')),
   defineAsyncComponent(() => import('@/components/sections/SymtomChecker.vue')),
@@ -110,6 +110,9 @@ function goToSection(index: number) {
       delay: 3,
     });
   }
+  // else if(index == 2){ // 7
+
+  // }
   else {
     scrollTween = gsap.to(window, {
       scrollTo: { y: index * window.innerHeight, autoKill: false },
@@ -128,6 +131,7 @@ onMounted(async () => {
   if (!process.client || !container.value) return
 
   gsap.utils.toArray<HTMLElement>(sections.value).forEach((panel, index) => {
+
     ScrollTrigger.create({
       trigger: panel,
       start: "top bottom-=2",
@@ -135,6 +139,7 @@ onMounted(async () => {
       pin: pinSection.value,
       onToggle: (self) => self.isActive && !scrollTween && goToSection(index),
     })
+
   })
 
   function cancelWhenTweening(e: Event) {
