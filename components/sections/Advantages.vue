@@ -209,21 +209,24 @@ onMounted(() => {
     const text: any = textAd.value?.[0]
     tl.from(text, { opacity: 0, y: 50, duration: 1, ease: "power3.out" }, "-=1");
     const slide: any = slideAd.value?.[0]
-    tl.from(slide, { opacity: 0, y: 509, duration: 1, ease: "power4.out" });
-  // should work after tl animations done
-    const nexttl = gsap.timeline({
-        scrollTrigger: {
-            trigger: advantageContainer.value,
-            start: "top top",
-            end: "+=3000px",
-            pin: true,
-            pinSpacing: true,
-            anticipatePin: 1,
-            scrub: 0.5,
-            invalidateOnRefresh: true,
-            markers: true
-        },
-    })
+    tl.from(slide, { opacity: 0, y: 509, duration: 1, ease: "power4.out" })
+        .then(() => {
+            const nexttl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: advantageContainer.value,
+                    start: "top top",
+                    end: "+=3000px",
+                    pin: true,
+                    pinSpacing: true,
+                    anticipatePin: 1,
+                    scrub: 0.5,
+                    invalidateOnRefresh: true,
+                    markers: true
+                },
+            });
+
+            // Add animations to nexttl here
+        })
 
 
 });
