@@ -3,7 +3,7 @@
     <div ref="container">
       <section v-for="(comp, index) in sectionComponents" :key="index" ref="sections" class="panel"
         :id="index + 'panel'">
-        <component :is="comp" :currentSection="currentSection" />
+        <component :is="comp" :currentSection="currentSection" :currentSlide="currentSlide" />
       </section>
     </div>
   </ClientOnly>
@@ -20,7 +20,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
 const sectionComponents = shallowRef([
   // defineAsyncComponent(() => import('@/components/sections/Entrance.vue')),
   // defineAsyncComponent(() => import('@/components/sections/Welcome.vue')),
-  defineAsyncComponent(() => import('@/components/sections/Modules.vue')),
+  // defineAsyncComponent(() => import('@/components/sections/Modules.vue')),
   defineAsyncComponent(() => import('@/components/sections/Advantages.vue')),
   defineAsyncComponent(() => import('@/components/sections/SymtomChecker.vue')),
   defineAsyncComponent(() => import('@/components/sections/Library.vue')),
@@ -34,6 +34,7 @@ const title = ref<HTMLElement | null>(null)
 let scrollTween: gsap.core.Tween | null = null
 const currentSection = ref(0)
 const pinSection = ref(false)
+const currentSlide = ref(0)
 
 
 function goToSection(index: number) {
@@ -131,7 +132,6 @@ onMounted(async () => {
   if (!process.client || !container.value) return
 
   gsap.utils.toArray<HTMLElement>(sections.value).forEach((panel, index) => {
-
     ScrollTrigger.create({
       trigger: panel,
       start: "top bottom-=2",
@@ -139,7 +139,6 @@ onMounted(async () => {
       pin: pinSection.value,
       onToggle: (self) => self.isActive && !scrollTween && goToSection(index),
     })
-
   })
 
   function cancelWhenTweening(e: Event) {
@@ -160,6 +159,7 @@ onUnmounted(() => {
   width: 100%;
   position: sticky;
   top: 0;
+  overflow: hidden;
   /* display: flex;
   align-items: center;
   justify-content: center; */

@@ -1,6 +1,6 @@
 <template>
-    <div class="h-[100vh] bg-white overflow-hidden">
-        <div ref="scrollContainer" class="h-screen relative flex items-center w-full justify-center !overflow-scroll">
+    <div class="h-[100vh] bg-white overflow-hidden ">
+        <div ref="scrollContainer" class="h-screen relative flex items-center w-full justify-center sectionCon">
             <div class="absolute w-full top-0 line advantageDiv" ref="lineSvg">
                 <svg class="mx-auto" width="14" height="120" viewBox="0 0 14 120" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
@@ -158,23 +158,8 @@ onMounted(() => {
     const tl = gsap.timeline({
         scrollTrigger: {
             trigger: advantageContainer.value,
-            // start: "top top",
-            // end: "+=3000px",
-            // pin: true,
-            // pinSpacing: true,
-            // anticipatePin: 1,
-            // scrub: 0.5,
-            // invalidateOnRefresh: true,
-            // markers: true
         },
     })
-    // tl.from(advantagesNav.value, {
-    //     opacity: 0,
-    //     y: 325,
-    //     duration: 1,
-    //     ease: "power4.out",
-    //     delay: 0.68,
-    // })
     tl.from(
         lineSvg.value,
         { opacity: 0, duration: 1, ease: "power4.out", y: 820, delay: 0.68 },
@@ -210,24 +195,38 @@ onMounted(() => {
     tl.from(text, { opacity: 0, y: 50, duration: 1, ease: "power3.out" }, "-=1");
     const slide: any = slideAd.value?.[0]
     tl.from(slide, { opacity: 0, y: 509, duration: 1, ease: "power4.out" })
-        .then(() => {
-            const nexttl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: advantageContainer.value,
-                    start: "top top",
-                    end: "+=3000px",
-                    pin: true,
-                    pinSpacing: true,
-                    anticipatePin: 1,
-                    scrub: 0.5,
-                    invalidateOnRefresh: true,
-                    markers: true
-                },
-            });
+    // .then(() => {
+    //     const slideElements = gsap.utils.toArray(".slide");
+    //     const nexttl = gsap.timeline({
+    //         scrollTrigger: {
+    //             trigger: advantageContainer.value,
+    //             start: "top top",
+    //             end: "+=3000px",
+    //             pin: true,
+    //             pinSpacing: true,
+    //             anticipatePin: 1,
+    //             scrub: 0.5,
+    //             invalidateOnRefresh: true,
+    //             markers: true
+    //         },
+    //     });
 
-            // Add animations to nexttl here
-        })
-
+    //     // Add animations to nexttl here
+    // })
+    const sectionCon: any = document.querySelector(".sectionCon");
+    const nexttl = gsap.timeline({
+        scrollTrigger: {
+            trigger: '.sectionCon',
+            start: "top top",
+            end: () => "+=" + sectionCon?.offsetHeight,
+            pin: true,
+            pinSpacing: true,
+            anticipatePin: 1,
+            scrub: 0.5,
+            invalidateOnRefresh: true,
+            markers: true
+        },
+    });
 
 });
 </script>
