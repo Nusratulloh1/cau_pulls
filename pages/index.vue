@@ -3,7 +3,7 @@
     <div ref="container">
       <section v-for="(comp, index) in sectionComponents" :key="index" ref="sections" class="panel"
         :id="index + 'panel'">
-        <component :is="comp" :currentSection="currentSection" />
+        <component :is="comp" :currentSection="currentSection" @next="handleNextSection" @prev="handlePrevSection" />
       </section>
     </div>
   </ClientOnly>
@@ -20,7 +20,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
 const sectionComponents = shallowRef([
   // defineAsyncComponent(() => import('@/components/sections/Entrance.vue')),
   // defineAsyncComponent(() => import('@/components/sections/Welcome.vue')),
-  defineAsyncComponent(() => import('@/components/sections/Modules.vue')),
+  // defineAsyncComponent(() => import('@/components/sections/Modules.vue')),
   defineAsyncComponent(() => import('@/components/sections/Advantages.vue')),
   defineAsyncComponent(() => import('@/components/sections/SymtomChecker.vue')),
   defineAsyncComponent(() => import('@/components/sections/Library.vue')),
@@ -35,6 +35,19 @@ let scrollTween: gsap.core.Tween | null = null
 const currentSection = ref(0)
 const pinSection = ref(false)
 
+// Function to handle next section event from components
+function handleNextSection() {
+  if (currentSection.value < sectionComponents.value.length - 1) {
+    goToSection(currentSection.value + 1);
+  }
+}
+
+// Function to handle previous section event from components
+function handlePrevSection() {
+  if (currentSection.value > 0) {
+    goToSection(currentSection.value - 1);
+  }
+}
 
 function goToSection(index: number) {
   const moduleDivs = document.querySelectorAll('.moduleDiv')
@@ -159,6 +172,7 @@ onUnmounted(() => {
   height: 100vh;
   width: 100%;
   position: sticky;
+  /* position: relative; */
   top: 0;
   /* display: flex;
   align-items: center;

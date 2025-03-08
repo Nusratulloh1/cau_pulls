@@ -28,7 +28,7 @@
                     </button>
                 </div>
                 <div ref="checkerBoxes"
-                    class="right text-center flex items-center md:block overflow-x-auto md:space-y-4 gap-4 absolute md:relative bottom-6 w-full md:w-auto px-5 md:px-0">
+                    class="right text-center flex items-center md:block overflow-x-auto md:overflow-hidden md:space-y-4 gap-4 absolute md:relative bottom-6 w-full md:w-auto px-5 md:px-0">
                     <div class="bg-white rounded-3xl p-4 md:py-5 md:px-14 shrink-0">
                         <h5 class="text-[#62DCF2] font-semibold text-2xl md:text-[32px]">
                             163 000+
@@ -1651,7 +1651,7 @@ onMounted(() => {
     const circles: any = svgRound.value?.querySelectorAll("circle")
 
     // Select a random half of the circles
-    const halfCircles = gsap.utils.shuffle(circles).slice(0, Math.ceil(circles.length / 2));
+    // const halfCircles = gsap.utils.shuffle(circles).slice(0, Math.ceil(circles.length / 2));
 
     // Animate only the selected half
     gsap.to(circles, {
