@@ -12,6 +12,12 @@
                 <h2 ref="titleSc">
                     Самая полная картина вашего <span>здоровья</span>, доступная как никогда раньше
                 </h2>
+                <h2 ref="titleSc2" class=" hidden">
+                    Поймите свое здоровье с <br> уверенностью
+                </h2>
+                <h2 ref="titleSc3" class=" hidden">
+                    Ваш персональный <br> медицинский помощник
+                </h2>
                 <div class="w-full mt-6 sm:mt-16">
                     <svg ref="svgSc" class=" w-[100px] md:w-[162px] mx-auto" width="162" height="50"
                         viewBox="0 0 162 50" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -78,6 +84,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 const screenContainer = ref<HTMLElement | null>(null);
 const titleSc = ref<HTMLElement | null>(null);
+const titleSc2 = ref<HTMLElement | null>(null);
+const titleSc3 = ref<HTMLElement | null>(null);
 const svgSc = ref<HTMLElement | null>(null);
 const imgSc = ref<HTMLElement | null>(null);
 
