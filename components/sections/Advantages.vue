@@ -22,7 +22,7 @@
                 </h2>
                 <!-- <p v-for="slide in slides" :key="slide.id" :class="{ 'hidden': currentSlide !== slide.id }"
                     class="text-[#39444C] text-lg md:text-2xl mt-8 md:mt-16" ref="textAd">
-                    {{ slide.title }}
+                    {{ slide.title }} {{ currentSlide }}
                 </p> -->
                 <div class="slides  overflow-hidden h-[370px] mt-8 md:mt-16">
                     <div v-for="slide in slides" :key="slide.id" :class="{ 'hidden': currentSlide !== slide.id }">
@@ -137,7 +137,27 @@ const goToNextSlide = () => {
     if (isAnimating) return;
     isAnimating = true;
 
+    const textWords = splitWords(textAd.value?.[0]);
     if (currentSlide.value < slides.length) {
+        gsap.fromTo(
+            textWords,
+            { opacity: 0, y: -50 },
+            {
+                opacity: 1,
+                y: 50,
+                duration: 0.5,
+                ease: "power4.out",
+                stagger: 0.10, // Smooth sequential animation
+            }
+        );
+
+        // Text Animation (Slight Delay)
+        const text: any = textAd.value?.[0];
+        console.log(text);
+
+        if (text) {
+            gsap.from(text, { opacity: 0, y: -50, duration: 1, ease: "power3.out" });
+        }
         // Store current slide before changing
         const prevSlide = currentSlide.value;
         // Go to next slide
@@ -193,6 +213,25 @@ const goToNextSlide = () => {
                         ease: "power2.out" // Slowing down easing
                     }
                 );
+                gsap.fromTo(
+                    textWords,
+                    { opacity: 0, y: 50 },
+                    {
+                        opacity: 1,
+                        y: 50,
+                        duration: 0.5,
+                        ease: "power4.out",
+                        stagger: 0.10, // Smooth sequential animation
+                    }
+                );
+
+                // Text Animation (Slight Delay)
+                const text: any = textAd.value?.[0];
+                console.log(text);
+
+                if (text) {
+                    gsap.from(text, { opacity: 0, y: 50, duration: 1, ease: "power3.out" });
+                }
             }
         } else {
             isAnimating = false;
@@ -334,16 +373,15 @@ watch(() => props.currentSection, (value) => {
         window.removeEventListener('keydown', handleKeyDown);
     }
 });
+const splitWords = (element: any) => {
+    console.log(element, 'element');
 
+    const words = element.innerText.split(" ");
+    element.innerHTML = words.map((word: any) => `<span class="word">${word}</span>`).join(" ");
+    return element.querySelectorAll(".word");
+};
 onMounted(() => {
     // Split Text Function
-    const splitWords = (element: any) => {
-        console.log(element, 'element');
-
-        const words = element.innerText.split(" ");
-        element.innerHTML = words.map((word: any) => `<span class="word">${word}</span>`).join(" ");
-        return element.querySelectorAll(".word");
-    };
 
     const titleWords = splitWords(titleAd.value);
     const textWords = splitWords(textAd.value?.[0]);
