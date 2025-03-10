@@ -29,6 +29,7 @@
   "dependencies": {
     "@pinia/nuxt": "^0.4.8",
     "gsap": "^3.12.7",
+    "lottie-web": "^5.12.2",
     "pinia": "^2.0.34",
     "swiper": "^11.2.0",
     "vue-i18n": "^9.2.2"

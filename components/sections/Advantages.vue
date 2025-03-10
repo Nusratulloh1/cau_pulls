@@ -15,22 +15,23 @@
             <!-- </div> -->
 
             <div class="content text-center advantageDiv" ref="advantageContainer">
-                <h2 class="max-w-[870px] mx-auto text-2xl md:text-5xl text-[#39444C]" ref="titleAd">
-                    Современное <span class="text-[#62DCF2]">
+                <h2 class="max-w-[870px] mx-auto text-2xl md:text-4xl 2xl:text-5xl text-[#39444C]" ref="titleAd">
+                    Современное <mark class="text-[#62DCF2] bg-transparent">
                         медицинское обслуживание
-                    </span> с заботой о вас и вашем времени
+                    </mark> с заботой о вас и вашем времени
                 </h2>
                 <!-- <p v-for="slide in slides" :key="slide.id" :class="{ 'hidden': currentSlide !== slide.id }"
                     class="text-[#39444C] text-lg md:text-2xl mt-8 md:mt-16" ref="textAd">
                     {{ slide.title }} {{ currentSlide }}
                 </p> -->
-                <div class="slides  overflow-hidden h-[370px] mt-8 md:mt-16">
+                <div class="slides  overflow-hidden h-[370px] mt-8 md:mt-10">
                     <div v-for="slide in slides" :key="slide.id" :class="{ 'hidden': currentSlide !== slide.id }">
                         <p class="text-[#39444C] text-lg md:text-2xl " ref="textAd">
                             {{ slide.title }}
                         </p>
                         <!-- <template v-if="currentSlide === slide.id"> -->
-                        <div class="slide " ref="slideAd">
+                        <div class="slide " ref="slideAd" @mouseenter="startAnimation(slide.id)" 
+                        @mouseleave="stopAnimation(slide.id)">
                             <div class="flex items-center gap-2 arrow">
                                 <div
                                     class="border border-[#39444C] rounded-xl w-9 h-9 flex items-center justify-center">
@@ -44,7 +45,11 @@
                                         stroke-dasharray="4 4" />
                                 </svg>
                             </div>
-                            <img :src="slide.img" alt="img">
+                            <div class="img-container" 
+                                 >
+                                <img :src="slide.img" alt="img" v-show="!slideAnimations[slide.id]?.isPlaying">
+                                <div :id="`lottie-container-${slide.id}`" class="lottie-container" v-show="slideAnimations[slide.id]?.isPlaying"></div>
+                            </div>
                             <div class="md:text-start ml-5 content">
                                 <h3 class="md:text-2xl font-semibold text-[#39444C]">
                                     {{ slide.innerTitle }}
@@ -80,10 +85,14 @@ import { ref, watch, onMounted, onUnmounted } from 'vue';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Navbar from '../navbar.vue';
+import lottie from 'lottie-web';
 
 import img1 from '@/assets/images/advantages/1.png';
 import img2 from '@/assets/images/advantages/2.png';
 import img3 from '@/assets/images/advantages/3.png';
+import first from '@/assets/lottie/first.json';
+import second from '@/assets/lottie/Second.json';
+import third from '@/assets/lottie/Third.json';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -94,6 +103,7 @@ const slides = [
         id: 1,
         title: 'CAU Puls Телемедецина',
         img: img1,
+        animation: first,
         innerTitle: 'Видео звонок терапевту',
         innerDesc: 'Личное общение: обсудите ваше состояние с врачом, видя его в реальном времени, но без необходимости выходить из дома'
     },
@@ -101,6 +111,7 @@ const slides = [
         id: 2,
         title: 'CAU Puls Телемедецина',
         img: img2,
+        animation: second,
         innerTitle: 'Видео звонок терапевту',
         innerDesc: 'Личное общение: обсудите ваше состояние с врачом, видя его в реальном времени, но без необходимости выходить из дома'
     },
@@ -108,6 +119,7 @@ const slides = [
         id: 3,
         title: 'CAU Puls Телемедецина',
         img: img3,
+        animation: third,
         innerTitle: 'Видео звонок терапевту',
         innerDesc: 'Личное общение: обсудите ваше состояние с врачом, видя его в реальном времени, но без необходимости выходить из дома'
     },
@@ -115,10 +127,58 @@ const slides = [
         id: 4,
         title: 'CAU Puls Телемедецина',
         img: img3,
+        animation: third, // Reusing the third animation for the fourth slide
         innerTitle: 'Видео звонок терапевту',
         innerDesc: 'Личное общение: обсудите ваше состояние с врачом, видя его в реальном времени, но без необходимости выходить из дома'
     },
 ];
+
+const slideAnimations = ref<{[key: number]: {animation: any, isPlaying: boolean}}>({});
+
+// Function to start Lottie animation on hover
+const startAnimation = (slideId: number) => {
+    if (!slideAnimations.value[slideId]) {
+        // Initialize the animation if it doesn't exist
+        const container = document.getElementById(`lottie-container-${slideId}`);
+        if (container) {
+            const animation = lottie.loadAnimation({
+                container: container,
+                renderer: 'svg',
+                loop: false,
+                autoplay: false,
+                animationData: slides.find(s => s.id === slideId)?.animation
+            });
+            
+            slideAnimations.value[slideId] = {
+                animation,
+                isPlaying: false
+            };
+        }
+    }
+    
+    // Play the animation and show the Lottie container
+    if (slideAnimations.value[slideId]) {
+        slideAnimations.value[slideId].isPlaying = true;
+        slideAnimations.value[slideId].animation.play();
+    }
+};
+
+// Function to stop Lottie animation when not hovering
+const stopAnimation = (slideId: number) => {
+    if (slideAnimations.value[slideId]) {
+        slideAnimations.value[slideId].isPlaying = false;
+        slideAnimations.value[slideId].animation.stop();
+    }
+};
+
+// Clean up animations on component unmount
+onUnmounted(() => {
+    Object.values(slideAnimations.value).forEach(anim => {
+        if (anim.animation) {
+            anim.animation.destroy();
+        }
+    });
+});
 
 const currentSlide = ref(1);
 const scrollContainer = ref<HTMLElement | null>(null);
@@ -393,14 +453,83 @@ watch(() => props.currentSection, (value) => {
     }
 });
 const splitWords = (element: any) => {
-    console.log(element, 'element');
-
-    if (!element) return [];
-    
-    const words = element.innerText.split(" ");
-    element.innerHTML = words.map((word: any) => `<span class="word bg-red-500">${word}</span>`).join(" ");
-    return element.querySelectorAll(".word");
-};
+        if (!element) return [];
+        
+        // Store the original HTML to check for mark tags
+        const originalHTML = element.innerHTML;
+        const hasMarkTag = originalHTML.includes("</mark>");
+        
+        // If there's a mark tag, we need special handling
+        if (hasMarkTag) {
+            // Create a temporary element to manipulate the HTML
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = originalHTML;
+            
+            // Process mark tags first - add the special class to them
+            const markTags = tempDiv.querySelectorAll('mark');
+            markTags.forEach((markTag) => {
+                const text = markTag.textContent;
+                if (!text) return;
+                
+                const words = text.split(" ");
+                markTag.innerHTML = words.map((word: string) => 
+                    `<span class="word text-[#62DCF2]">${word}</span>`
+                ).join(" ");
+            });
+            
+            // Find all text nodes (not inside mark tags) and wrap words in spans
+            const processTextNodes = (node: Node) => {
+                if (node.nodeType === 3) { // Text node
+                    const text = node.textContent;
+                    const words = text ? text.split(" ").filter(word => word.trim() !== "") : [];
+                    if (words.length === 0) return node;
+                    
+                    const fragment = document.createDocumentFragment();
+                    words.forEach((word: string, i: number) => {
+                        const span = document.createElement('span');
+                        span.className = 'word';
+                        span.textContent = word;
+                        fragment.appendChild(span);
+                        
+                        // Add space after each word except the last one
+                        if (i < words.length - 1) {
+                            fragment.appendChild(document.createTextNode(" "));
+                        }
+                    });
+                    
+                    node.parentNode?.replaceChild(fragment, node);
+                    return fragment;
+                } else if (node.nodeType === 1) { // Element node
+                    // Skip processing for mark tags - we already processed them
+                    if ((node as Element).tagName.toLowerCase() === 'mark') {
+                        return node;
+                    }
+                    
+                    // Process other element nodes
+                    Array.from(node.childNodes).forEach(child => {
+                        processTextNodes(child);
+                    });
+                }
+                return node;
+            };
+            
+            // Process all child nodes 
+            Array.from(tempDiv.childNodes).forEach(child => {
+                processTextNodes(child);
+            });
+            
+            // Update the original element's HTML
+            element.innerHTML = tempDiv.innerHTML;
+        } else {
+            // Original logic for elements without mark tags
+            const words = element.innerText.split(" ");
+            element.innerHTML = words.map((word: string) => 
+                `<span class="word">${word}</span>`
+            ).join(" ");
+        }
+        
+        return element.querySelectorAll(".word");
+    };
 onMounted(() => {
     // Split Text Function
     document.querySelectorAll('.slides p').forEach(element => {
@@ -520,14 +649,35 @@ onUnmounted(() => {
     gap: 8px;
     margin-top: 40px;
     cursor: pointer;
-    // transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
     overflow: hidden;
 
-    img {
+    .img-container {
+        position: relative;
         width: 600px;
         height: 300px;
         border-radius: 24px;
         transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out, opacity 0.3s ease-in-out;
+        
+        img {
+            width: 100%;
+            height: 100%;
+            border-radius: 24px;
+            object-fit: cover;
+        }
+        
+        .lottie-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 24px;
+            overflow: hidden;
+        }
+        
+        &:hover {
+            filter: blur(2px) brightness(0.98);
+        }
     }
 
     .content {
@@ -537,11 +687,11 @@ onUnmounted(() => {
         transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
     }
 
-    &:hover {
-        img {
-            filter: blur(2px) brightness(0.98);
-        }
+    .arrow {
+        display: none;
+    }
 
+    &:hover {
         .content {
             display: block !important;
             opacity: 1;
@@ -571,18 +721,36 @@ onUnmounted(() => {
         margin-top: 20px;
         gap: 25px;
 
-        img {
+        .img-container {
             width: 85%;
-            height: auto !important;
+            height: auto;
+            
+            img, .lottie-container {
+                width: 100%;
+                height: auto !important;
+            }
         }
 
         .arrow {
             flex-direction: column !important;
             gap: 15px;
+            display: flex;
 
             svg {
                 transform: rotate(90deg);
             }
+        }
+        
+        .content {
+            display: block;
+            opacity: 1;
+            transform: none;
+        }
+    }
+    
+    @media (min-width: 768px) {
+        .arrow {
+            display: flex;
         }
     }
 }

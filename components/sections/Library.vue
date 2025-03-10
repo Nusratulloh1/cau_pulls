@@ -217,7 +217,32 @@ onMounted(() => {
             }
         }
     }
+    @media (max-width: 1582px) {
+        .box {
+            .image {
+                height: 135px;
 
+                p {
+                    font-size: 14px;
+                    line-height: 16.6px;
+                }
+            }
+
+            .more {
+                height: 135px;
+                font-size: 38px;
+                line-height: 47.6px;
+            }
+
+
+            &:nth-child(1) {
+                .image {
+                    height: 295px;
+                }
+            }
+        }
+
+    }
     @media (max-width: 1025px) {
         .box {
             .image {

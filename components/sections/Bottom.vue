@@ -1,10 +1,10 @@
 <template>
     <div class=" h-screen bg-white flex items-center justify-center">
         <Navbar logo-type="blue" />
-        <div class="overlay px-4 pb-20" ref="bottomContainer">
+        <div class="overlay w-full px-4 pb-20" ref="bottomContainer">
             <h2 ref="titleBottom">
-                <span>Современные технологии</span> и <span>забота</span>, чтобы сделать медицину <span>ближе</span>
-                <span>и удобнее</span> для вас
+                <mark>Современные технологии</mark> и <mark>забота</mark>, чтобы сделать медицину <mark>ближе</mark>
+                <mark>и удобнее</mark> для вас
             </h2>
             <div ref="btnsBottom" class="flex items-center md:justify-center mt-5 sm:mt-12 gap-3">
                 <button ref="downloadApple" class=" bg-[#62DCF2] rounded-[22px] font-bold text-white p-3 sm:p-5 ">
@@ -105,9 +105,82 @@ onMounted(() => {
             // toggleActions: "play none none reverse",
         },
     });
-    const splitWords = (element: any) => {
-        const words = element.innerText.split(" ");
-        element.innerHTML = words.map((word: any) => `<span class="word">${word}</span>`).join(" ");
+    const splitWords = (element: HTMLElement | null) => {
+        if (!element) return [];
+        
+        // Store the original HTML to check for mark tags
+        const originalHTML = element.innerHTML;
+        const hasMarkTag = originalHTML.includes("</mark>");
+        
+        // If there's a mark tag, we need special handling
+        if (hasMarkTag) {
+            // Create a temporary element to manipulate the HTML
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = originalHTML;
+            
+            // Process mark tags first - add the special class to them
+            const markTags = tempDiv.querySelectorAll('mark');
+            markTags.forEach((markTag) => {
+                const text = markTag.textContent;
+                if (!text) return;
+                
+                const words = text.split(" ");
+                markTag.innerHTML = words.map((word: string) => 
+                    `<span class="word text-[#62DCF2]">${word}</span>`
+                ).join(" ");
+            });
+            
+            // Find all text nodes (not inside mark tags) and wrap words in spans
+            const processTextNodes = (node: Node) => {
+                if (node.nodeType === 3) { // Text node
+                    const text = node.textContent;
+                    const words = text ? text.split(" ").filter(word => word.trim() !== "") : [];
+                    if (words.length === 0) return node;
+                    
+                    const fragment = document.createDocumentFragment();
+                    words.forEach((word: string, i: number) => {
+                        const span = document.createElement('span');
+                        span.className = 'word';
+                        span.textContent = word;
+                        fragment.appendChild(span);
+                        
+                        // Add space after each word except the last one
+                        if (i < words.length - 1) {
+                            fragment.appendChild(document.createTextNode(" "));
+                        }
+                    });
+                    
+                    node.parentNode?.replaceChild(fragment, node);
+                    return fragment;
+                } else if (node.nodeType === 1) { // Element node
+                    // Skip processing for mark tags - we already processed them
+                    if ((node as Element).tagName.toLowerCase() === 'mark') {
+                        return node;
+                    }
+                    
+                    // Process other element nodes
+                    Array.from(node.childNodes).forEach(child => {
+                        processTextNodes(child);
+                    });
+                }
+                return node;
+            };
+            
+            // Process all child nodes 
+            Array.from(tempDiv.childNodes).forEach(child => {
+                processTextNodes(child);
+            });
+            
+            // Update the original element's HTML
+            element.innerHTML = tempDiv.innerHTML;
+        } else {
+            // Original logic for elements without mark tags
+            const words = element.innerText.split(" ");
+            element.innerHTML = words.map((word: string) => 
+                `<span class="word">${word}</span>`
+            ).join(" ");
+        }
+        
         return element.querySelectorAll(".word");
     };
 
@@ -158,8 +231,10 @@ h2 {
     max-width: 1151px;
     margin: auto;
 
-    span {
+    mark {
         color: #62DCF2;
+        background: transparent;
+        margin-left: 8px;
     }
 
 

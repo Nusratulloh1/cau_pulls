@@ -3,7 +3,7 @@
     <div ref="container">
       <section v-for="(comp, index) in sectionComponents" :key="index" ref="sections" class="panel"
         :id="index + 'panel'">
-        <component :is="comp" :currentSection="currentSection" @next="handleNextSection" @prev="handlePrevSection" />
+        <component :is="comp" :current-section="currentSection" @next="handleNextSection" @prev="handlePrevSection" />
       </section>
     </div>
   </ClientOnly>
@@ -18,9 +18,9 @@ import ScrollToPlugin from 'gsap/ScrollToPlugin'
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
 
 const sectionComponents = shallowRef([
-  // defineAsyncComponent(() => import('@/components/sections/Entrance.vue')),
-  // defineAsyncComponent(() => import('@/components/sections/Welcome.vue')),
-  // defineAsyncComponent(() => import('@/components/sections/Modules.vue')),
+  defineAsyncComponent(() => import('@/components/sections/Entrance.vue')),
+  defineAsyncComponent(() => import('@/components/sections/Welcome.vue')),
+  defineAsyncComponent(() => import('@/components/sections/Modules.vue')),
   defineAsyncComponent(() => import('@/components/sections/Advantages.vue')),
   defineAsyncComponent(() => import('@/components/sections/SymtomChecker.vue')),
   defineAsyncComponent(() => import('@/components/sections/Library.vue')),
@@ -55,6 +55,7 @@ function goToSection(index: number) {
   const advantage = document.querySelectorAll('.advantageDiv')
   const liblaryDiv = document.querySelectorAll('.liblaryDiv')
   const videoBg: any = document.querySelector('.video-bg')
+  
   if (index <= currentSection.value) {
     // Do nothing when going back
     scrollTween = gsap.to(window, {
@@ -140,19 +141,70 @@ function goToSection(index: number) {
     })
   }
 }
+
 onMounted(async () => {
   await nextTick()
   if (!process.client || !container.value) return
 
+  // Create an array to store ScrollTrigger instances
+  const triggers = [];
+
+  // First, handle the Screens section separately
+  let screensIndex = -1;
+  let screensPanel = null;
+
+  // Find the Screens section
   gsap.utils.toArray<HTMLElement>(sections.value).forEach((panel, index) => {
-    ScrollTrigger.create({
+    // Check if current section contains the Screens component using class name matching
+    if (panel.querySelector('[ref="scrollContainerScreens"]') || 
+        (panel.firstElementChild && panel.firstElementChild.classList.contains('bg-white'))) {
+      screensIndex = index;
+      screensPanel = panel;
+    }
+  });
+
+  // If we found the Screens panel, create a special trigger for it
+  if (screensPanel) {
+    const screensTrigger = ScrollTrigger.create({
+      trigger: screensPanel,
+      start: "top top",
+      end: () => "+=" + (window.innerHeight * 3), // Give more scroll space for the steps
+      pin: true, // Pin this section
+      anticipatePin: 1,
+      scrub: 1,
+      onEnter: () => {
+        currentSection.value = screensIndex;
+      },
+      onLeaveBack: (self) => {
+        if (!scrollTween && currentSection.value === screensIndex) {
+          goToSection(screensIndex - 1);
+        }
+      },
+      onLeave: (self) => {
+        if (!scrollTween && currentSection.value === screensIndex) {
+          goToSection(screensIndex + 1);
+        }
+      }
+    });
+    
+    triggers.push(screensTrigger);
+  }
+
+  // Then create regular triggers for all other sections
+  gsap.utils.toArray<HTMLElement>(sections.value).forEach((panel, index) => {
+    // Skip the Screens section as we already handled it
+    if (index === screensIndex) return;
+    
+    const trigger = ScrollTrigger.create({
       trigger: panel,
       start: "top bottom-=2",
       end: () => "+=" + (window.innerHeight * 2 - 4),
       pin: pinSection.value,
       onToggle: (self) => self.isActive && !scrollTween && goToSection(index),
-    })
-  })
+    });
+    
+    triggers.push(trigger);
+  });
 
   function cancelWhenTweening(e: Event) {
     if (scrollTween) e.preventDefault()
@@ -165,7 +217,6 @@ onUnmounted(() => {
   ScrollTrigger.getAll().forEach(trigger => trigger.kill())
 })
 </script>
-
 <style scoped>
 .panel {
   height: 100vh;
