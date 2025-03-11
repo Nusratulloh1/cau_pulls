@@ -87,7 +87,7 @@
                         <div class="flex items-center justify-center gap-3    roundedButtons ">
                             <button class=" shrink-0" @click="changeSlide(slide.id)" v-for="slide in slides"
                                 :class="{ active: slide.id == currentSlide }">{{
-                                    slide.title
+                        slide.title
                                 }}</button>
                         </div>
                     </div>
@@ -402,7 +402,7 @@ onMounted(() => {
                     y: -50,
                     duration: 0.5,
                     ease: "power3.out",
-                    stagger: 0.15,
+                    stagger: -0.15,
                     delay: 0.3,
                 }
             );
@@ -454,7 +454,7 @@ onMounted(() => {
                     y: -50,
                     duration: 0.5,
                     ease: "power3.out",
-                    stagger: 0.15,
+                    stagger: -0.15,
                     delay: 0.3,
                 }
             );
@@ -510,7 +510,7 @@ onMounted(() => {
                     y: -50,
                     duration: 0.5,
                     ease: "power3.out",
-                    stagger: 0.15,
+                    stagger: -0.15,
                     delay: 0.3,
                 }
             );
@@ -563,6 +563,7 @@ onMounted(() => {
 
         // Going backwards from step 2 to step 1
         else if (newStep === 1 && oldStep === 2) {
+            changeSlide(1)
             stepTl.fromTo(
                 titleWords3,
                 { opacity: 1, y: 0 },
@@ -571,7 +572,7 @@ onMounted(() => {
                     y: -50,
                     duration: 0.5,
                     ease: "power3.out",
-                    stagger: 0.15,
+                    stagger: -0.15,
                     delay: 0.3,
                 }
             );
@@ -781,8 +782,9 @@ h2 {
         font-size: 24px !important;
         line-height: 31.2px;
     }
-    .roundedButtons{
-        button{
+
+    .roundedButtons {
+        button {
             font-size: 14px;
         }
     }
@@ -799,9 +801,11 @@ h2 {
             max-width: 1033px !important;
         }
     }
-    .roundedButtons{
+
+    .roundedButtons {
         overflow: scroll !important;
-        button{
+
+        button {
             font-size: 16px;
         }
     }

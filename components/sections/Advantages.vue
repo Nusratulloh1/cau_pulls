@@ -30,8 +30,8 @@
                             {{ slide.title }}
                         </p>
                         <!-- <template v-if="currentSlide === slide.id"> -->
-                        <div class="slide " ref="slideAd" @mouseenter="startAnimation(slide.id)" 
-                        @mouseleave="stopAnimation(slide.id)">
+                        <div class="slide " ref="slideAd" @mouseenter="startAnimation(slide.id)"
+                            @mouseleave="stopAnimation(slide.id)">
                             <div class="flex items-center gap-2 arrow">
                                 <div
                                     class="border border-[#39444C] rounded-xl w-9 h-9 flex items-center justify-center">
@@ -45,10 +45,10 @@
                                         stroke-dasharray="4 4" />
                                 </svg>
                             </div>
-                            <div class="img-container" 
-                                 >
+                            <div class="img-container">
                                 <img :src="slide.img" alt="img" v-show="!slideAnimations[slide.id]?.isPlaying">
-                                <div :id="`lottie-container-${slide.id}`" class="lottie-container" v-show="slideAnimations[slide.id]?.isPlaying"></div>
+                                <div :id="`lottie-container-${slide.id}`" class="lottie-container"
+                                    v-show="slideAnimations[slide.id]?.isPlaying"></div>
                             </div>
                             <div class="md:text-start ml-5 content">
                                 <h3 class="md:text-2xl font-semibold text-[#39444C]">
@@ -112,28 +112,28 @@ const slides = [
         title: 'CAU Puls Телемедецина',
         img: img2,
         animation: second,
-        innerTitle: 'Видео звонок терапевту',
-        innerDesc: 'Личное общение: обсудите ваше состояние с врачом, видя его в реальном времени, но без необходимости выходить из дома'
+        innerTitle: 'Голосовой звонок терапевту',
+        innerDesc: 'Приватное общение: обсудите своё состояние с врачом без видеосвязи, сохраняя комфорт и конфиденциальность'
     },
     {
         id: 3,
         title: 'CAU Puls Телемедецина',
         img: img3,
         animation: third,
-        innerTitle: 'Видео звонок терапевту',
-        innerDesc: 'Личное общение: обсудите ваше состояние с врачом, видя его в реальном времени, но без необходимости выходить из дома'
+        innerTitle: 'Чат с терапевтом',
+        innerDesc: 'Удобный формат: задавайте вопросы врачу, отправляйте фото и документы, чтобы получить точные рекомендации'
     },
-    {
-        id: 4,
-        title: 'CAU Puls Телемедецина',
-        img: img3,
-        animation: third, // Reusing the third animation for the fourth slide
-        innerTitle: 'Видео звонок терапевту',
-        innerDesc: 'Личное общение: обсудите ваше состояние с врачом, видя его в реальном времени, но без необходимости выходить из дома'
-    },
+    // {
+    //     id: 4,
+    //     title: 'CAU Puls Телемедецина',
+    //     img: img3,
+    //     animation: third, // Reusing the third animation for the fourth slide
+    //     innerTitle: 'Видео звонок терапевту',
+    //     innerDesc: 'Личное общение: обсудите ваше состояние с врачом, видя его в реальном времени, но без необходимости выходить из дома'
+    // },
 ];
 
-const slideAnimations = ref<{[key: number]: {animation: any, isPlaying: boolean}}>({});
+const slideAnimations = ref<{ [key: number]: { animation: any, isPlaying: boolean } }>({});
 
 // Function to start Lottie animation on hover
 const startAnimation = (slideId: number) => {
@@ -148,14 +148,14 @@ const startAnimation = (slideId: number) => {
                 autoplay: false,
                 animationData: slides.find(s => s.id === slideId)?.animation
             });
-            
+
             slideAnimations.value[slideId] = {
                 animation,
                 isPlaying: false
             };
         }
     }
-    
+
     // Play the animation and show the Lottie container
     if (slideAnimations.value[slideId]) {
         slideAnimations.value[slideId].isPlaying = true;
@@ -218,11 +218,11 @@ const goToNextSlide = () => {
             const nextSlideComponent = slideElements[currentSlide.value - 1].querySelector('.slide');
             const prevTextElement = slideElements[prevSlide - 1].querySelector('p');
             const nextTextElement = slideElements[currentSlide.value - 1].querySelector('p');
-            
+
             // Create word spans only if elements exist
             const prevTextWords = prevTextElement ? splitWords(prevTextElement) : [];
             const nextTextWords = nextTextElement ? splitWords(nextTextElement) : [];
-            
+
             if (prevSlideComponent) {
                 // Slide out effect for previous slide's text
                 if (prevTextWords.length > 0) {
@@ -265,7 +265,7 @@ const goToNextSlide = () => {
                     }
                 );
             }
-            
+
             if (nextTextWords.length > 0) {
                 // Slide in effect for next slide's text
                 tl.fromTo(
@@ -320,13 +320,13 @@ const goToPrevSlide = () => {
             const nextSlideComponent = slideElements[currentSlide.value - 1].querySelector('.slide');
             const prevTextElement = slideElements[prevSlide - 1].querySelector('p');
             const nextTextElement = slideElements[currentSlide.value - 1].querySelector('p');
-            
+
             // Create word spans only if elements exist
             const prevTextWords = prevTextElement ? splitWords(prevTextElement) : [];
             const nextTextWords = nextTextElement ? splitWords(nextTextElement) : [];
 
             if (prevSlideComponent) {
-                
+
                 if (prevTextWords.length > 0) {
                     console.log(prevTextWords, 'prevTextWords.length');
                     tl.fromTo(
@@ -375,7 +375,7 @@ const goToPrevSlide = () => {
                     }
                 );
             }
-            
+
             if (nextTextWords.length > 0) {
                 // Slide in effect for next slide's text
                 tl.fromTo(
@@ -453,83 +453,83 @@ watch(() => props.currentSection, (value) => {
     }
 });
 const splitWords = (element: any) => {
-        if (!element) return [];
-        
-        // Store the original HTML to check for mark tags
-        const originalHTML = element.innerHTML;
-        const hasMarkTag = originalHTML.includes("</mark>");
-        
-        // If there's a mark tag, we need special handling
-        if (hasMarkTag) {
-            // Create a temporary element to manipulate the HTML
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = originalHTML;
-            
-            // Process mark tags first - add the special class to them
-            const markTags = tempDiv.querySelectorAll('mark');
-            markTags.forEach((markTag) => {
-                const text = markTag.textContent;
-                if (!text) return;
-                
-                const words = text.split(" ");
-                markTag.innerHTML = words.map((word: string) => 
-                    `<span class="word text-[#62DCF2]">${word}</span>`
-                ).join(" ");
-            });
-            
-            // Find all text nodes (not inside mark tags) and wrap words in spans
-            const processTextNodes = (node: Node) => {
-                if (node.nodeType === 3) { // Text node
-                    const text = node.textContent;
-                    const words = text ? text.split(" ").filter(word => word.trim() !== "") : [];
-                    if (words.length === 0) return node;
-                    
-                    const fragment = document.createDocumentFragment();
-                    words.forEach((word: string, i: number) => {
-                        const span = document.createElement('span');
-                        span.className = 'word';
-                        span.textContent = word;
-                        fragment.appendChild(span);
-                        
-                        // Add space after each word except the last one
-                        if (i < words.length - 1) {
-                            fragment.appendChild(document.createTextNode(" "));
-                        }
-                    });
-                    
-                    node.parentNode?.replaceChild(fragment, node);
-                    return fragment;
-                } else if (node.nodeType === 1) { // Element node
-                    // Skip processing for mark tags - we already processed them
-                    if ((node as Element).tagName.toLowerCase() === 'mark') {
-                        return node;
-                    }
-                    
-                    // Process other element nodes
-                    Array.from(node.childNodes).forEach(child => {
-                        processTextNodes(child);
-                    });
-                }
-                return node;
-            };
-            
-            // Process all child nodes 
-            Array.from(tempDiv.childNodes).forEach(child => {
-                processTextNodes(child);
-            });
-            
-            // Update the original element's HTML
-            element.innerHTML = tempDiv.innerHTML;
-        } else {
-            // Original logic for elements without mark tags
-            const words = element.innerText.split(" ");
-            element.innerHTML = words.map((word: string) => 
-                `<span class="word">${word}</span>`
+    if (!element) return [];
+
+    // Store the original HTML to check for mark tags
+    const originalHTML = element.innerHTML;
+    const hasMarkTag = originalHTML.includes("</mark>");
+
+    // If there's a mark tag, we need special handling
+    if (hasMarkTag) {
+        // Create a temporary element to manipulate the HTML
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = originalHTML;
+
+        // Process mark tags first - add the special class to them
+        const markTags = tempDiv.querySelectorAll('mark');
+        markTags.forEach((markTag) => {
+            const text = markTag.textContent;
+            if (!text) return;
+
+            const words = text.split(" ");
+            markTag.innerHTML = words.map((word: string) =>
+                `<span class="word text-[#62DCF2]">${word}</span>`
             ).join(" ");
-        }
-        
-        return element.querySelectorAll(".word");
-    };
+        });
+
+        // Find all text nodes (not inside mark tags) and wrap words in spans
+        const processTextNodes = (node: Node) => {
+            if (node.nodeType === 3) { // Text node
+                const text = node.textContent;
+                const words = text ? text.split(" ").filter(word => word.trim() !== "") : [];
+                if (words.length === 0) return node;
+
+                const fragment = document.createDocumentFragment();
+                words.forEach((word: string, i: number) => {
+                    const span = document.createElement('span');
+                    span.className = 'word';
+                    span.textContent = word;
+                    fragment.appendChild(span);
+
+                    // Add space after each word except the last one
+                    if (i < words.length - 1) {
+                        fragment.appendChild(document.createTextNode(" "));
+                    }
+                });
+
+                node.parentNode?.replaceChild(fragment, node);
+                return fragment;
+            } else if (node.nodeType === 1) { // Element node
+                // Skip processing for mark tags - we already processed them
+                if ((node as Element).tagName.toLowerCase() === 'mark') {
+                    return node;
+                }
+
+                // Process other element nodes
+                Array.from(node.childNodes).forEach(child => {
+                    processTextNodes(child);
+                });
+            }
+            return node;
+        };
+
+        // Process all child nodes 
+        Array.from(tempDiv.childNodes).forEach(child => {
+            processTextNodes(child);
+        });
+
+        // Update the original element's HTML
+        element.innerHTML = tempDiv.innerHTML;
+    } else {
+        // Original logic for elements without mark tags
+        const words = element.innerText.split(" ");
+        element.innerHTML = words.map((word: string) =>
+            `<span class="word">${word}</span>`
+        ).join(" ");
+    }
+
+    return element.querySelectorAll(".word");
+};
 onMounted(() => {
     // Split Text Function
     document.querySelectorAll('.slides p').forEach(element => {
@@ -657,14 +657,14 @@ onUnmounted(() => {
         height: 300px;
         border-radius: 24px;
         transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out, opacity 0.3s ease-in-out;
-        
+
         img {
             width: 100%;
             height: 100%;
             border-radius: 24px;
             object-fit: cover;
         }
-        
+
         .lottie-container {
             position: absolute;
             top: 0;
@@ -674,7 +674,7 @@ onUnmounted(() => {
             border-radius: 24px;
             overflow: hidden;
         }
-        
+
         &:hover {
             filter: blur(2px) brightness(0.98);
         }
@@ -724,8 +724,9 @@ onUnmounted(() => {
         .img-container {
             width: 85%;
             height: auto;
-            
-            img, .lottie-container {
+
+            img,
+            .lottie-container {
                 width: 100%;
                 height: auto !important;
             }
@@ -740,14 +741,14 @@ onUnmounted(() => {
                 transform: rotate(90deg);
             }
         }
-        
+
         .content {
             display: block;
             opacity: 1;
             transform: none;
         }
     }
-    
+
     @media (min-width: 768px) {
         .arrow {
             display: flex;
