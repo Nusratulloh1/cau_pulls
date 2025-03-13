@@ -102,26 +102,26 @@ onMounted(() => {
         "-=0.4"
     )
     tl.from(title.value, { opacity: 0, y: 50, duration: 2, ease: "power3.out" }, "-=0.8");
-    tl.fromTo(
-        textWords,
-        { opacity: 0, y: 50, ease: "power3.out" },
-        {
-            opacity: 1,
-            y: 50,
-            duration: 0.5,
-            ease: "power4.out",
-            stagger: 0.10, // Smooth sequential animation
-        },
-        "-=0.8"
-    )
+    // tl.fromTo(
+    //     textWords,
+    //     { opacity: 0, y: 50, ease: "power3.out" },
+    //     {
+    //         opacity: 1,
+    //         y: 50,
+    //         duration: 0.5,
+    //         ease: "power4.out",
+    //         stagger: 0.10, // Smooth sequential animation
+    //     },
+    //     "-=1"
+    // )
     // Text Animation (Slight Delay)
-    tl.from(text.value, { opacity: 0, y: 50, duration: 1, ease: "power3.out" }, "-=1");
+    tl.from(text.value, { opacity: 0, y: 50, duration: 1, ease: "power3.out" }, "-=1.2");
 
     // Images Animation (Grow & Fade)
     tl.fromTo(
         images.value,
         { opacity: 0, scale: 0.5 }, // Start: Hidden, Scaled Down
-        { opacity: 1, scale: 1, duration: 2.1, ease: "power4.out" } // Grow & Fade
+        { opacity: 1, scale: 1, duration: 2.2, ease: "power4.out" }, "-=0.7" // Grow & Fade
     );
     
 });

@@ -1,5 +1,5 @@
 <template>
-    <div class=" h-screen bg-white flex items-center justify-center relative" ref="liblaryContainer">
+    <div class=" h-screen bg-white flex items-center justify-center relative" >
         <div class=" absolute w-full top-0 line">
             <svg class=" mx-auto" width="14" height="120" viewBox="0 0 14 120" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
@@ -12,7 +12,7 @@
 
         </div>
         <Navbar ref="navLib" logo-type="blue" />
-        <div class=" text-center pt-16 xl:pt-10 2xl:pt-0 container px-4 md:px-0 liblaryDiv">
+        <div ref="liblaryContainer" class=" text-center pt-16 xl:pt-10 2xl:pt-0 container px-4 md:px-0 liblaryDiv">
             <div class=" max-w-[668px] mx-auto">
                 <h2 ref="titleLib"
                     class=" text-[#39444C] text-2xl sm:text-2xl md:text-4xl 2xl:text-5xl 2xl:leading-[57px]">
@@ -137,16 +137,16 @@ onMounted(() => {
             ease: "power4.out",
             stagger: 0.10, // Smooth sequential animation
         },
-        "-=0.8"
+        "-=1.2"
     )
     // Text Animation (Slight Delay)
-    tl.from(textLib.value, { opacity: 0, y: 50, duration: 1, ease: "power3.out" }, "-=1")
+    tl.from(textLib.value, { opacity: 0, y: 50, duration: 1, ease: "power3.out" }, "-=1.5")
     tl.from(".box", {
         opacity: 0,
-        y: 35,
-        duration: 1,
+        y: 115,
+        duration: 0.8,
         ease: "power4.out",
-        stagger: 0.5,
+        stagger: 0.4,
     })
 
 });

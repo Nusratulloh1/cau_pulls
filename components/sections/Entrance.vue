@@ -1,6 +1,6 @@
 <template>
     <div class="h-screen bg-[#62DCF2] relative">
-        <div ref="navBarEntr">
+        <div ref="navBarEntr" class=" absolute top-0 w-full z-[99999991]">
             <Navbar :logo-visible="false" />
         </div>
         <img class="m-auto object-cover pt-[12vh] sm:pt-0 h-[83vh]  sm:h-screen " src="@/assets/images/bg-round.png"
@@ -47,7 +47,7 @@ const navigateSection = () => {
 onMounted(() => {
     // GSAP logo animation: fade in and scale up
     if (logo.value) {
-        const tl = gsap.timeline({ ease: 'power3.out' });
+        const tl = gsap.timeline({ ease: 'power3.out', force3D: true });
 
         tl.from(logo.value, {
             y: 75,

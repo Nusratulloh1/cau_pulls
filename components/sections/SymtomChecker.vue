@@ -1,10 +1,13 @@
 <template>
-    <div id="section1" class="h-screen welcome">
+    <div id="section1" class="h-screen checker">
         <!-- Background Video -->
-        <video muted class="video-bg" loop autoplay playsinline>
+        <video muted class="video-bg" playsinline ref="videoRef">
             <source src="@/assets/videos/4.mp4" type="video/mp4" />
             Your browser does not support the video tag.
         </video>
+        
+        <!-- Blur overlay for video -->
+        <div class="video-blur-overlay" ref="videoBlurOverlay"></div>
 
 
         <div ref="checkerNav">
@@ -12,8 +15,8 @@
         </div>
 
 
-        <div class="overlay" ref="checkerContainer">
-            <div class="flex w-full items-center justify-between flex-col md:flex-row p-4 sm:px-12">
+        <div class="overlay-checker" >
+            <div ref="checkerContainer" class="flex w-full items-center justify-between flex-col md:flex-row p-4 sm:px-12">
                 <div class="left text-center md:text-start max-w-[396px]">
                     <h3 ref="checkerTitle" class=" text-[32px] left-[38.4px] md:text-5xl md:leading-[57.6px]">
                         Проверка симптомов с помощью ИИ
@@ -1559,13 +1562,12 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import Navbar from '../navbar.vue';
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
-
 
 const checkerContainer = ref<HTMLElement | null>(null);
 const checkerNav = ref<HTMLElement | null>(null);
@@ -1574,17 +1576,18 @@ const checkerText = ref<HTMLElement | null>(null);
 const checkerBtn = ref<HTMLElement | null>(null);
 const checkerBoxes = ref<any>(null);
 const svgRound = ref<HTMLElement | null>(null);
-
+const videoRef = ref<HTMLVideoElement | null>(null);
+const videoBlurOverlay = ref<HTMLElement | null>(null);
 
 onMounted(() => {
-    if (!checkerContainer.value) return;
     // Split Text Function
     const splitWords = (element: any) => {
         const words = element.innerText.split(" ");
         element.innerHTML = words.map((word: any) => `<span class="word">${word}</span>`).join(" ");
         return element.querySelectorAll(".word");
     };
-
+    const video = videoRef.value;
+    video?.pause(); // Ensure video is paused initially
     const titleWords = splitWords(checkerTitle.value);
     const textWords = splitWords(checkerText.value);
     const tl = gsap.timeline({
@@ -1592,20 +1595,48 @@ onMounted(() => {
             trigger: checkerContainer.value,
             // start: "top 85%", // Trigger when 85% of the section is in view
             // toggleActions: "play none none reverse",
+            onEnter: () => {
+                video?.play();
+            },
+            onLeave: () => {
+                video?.pause();
+            },
+            onEnterBack: () => {
+                video?.play();
+            },
+            onLeaveBack: () => {
+                video?.pause();
+            },
         },
     });
+
 
     tl.from(checkerNav.value, {
         opacity: 0,
         y: 35,
         duration: 1,
         ease: "power4.out",
-        delay: 2.5,
+        delay: 1,
     })
+    if (videoBlurOverlay.value) {
+        // Start with a blur of 24px
+        tl.set(videoBlurOverlay.value, { 
+            backdropFilter: "blur(6px)",
+            opacity: 1
+        });
+        
+        // // Animate the blur from 24px to 0px before the svg animation
+        // tl.to(videoBlurOverlay.value, {
+        //     backdropFilter: "blur(0px)",
+        //     duration: 2,
+        //     ease: "power2.out",
+        // });
+    }
     tl.from(svgRound.value, {
         opacity: 0,
-        duration: 3 ,
+        duration: 3,
         ease: "power4.out",
+        delay: 1,
     });
     tl.fromTo(
         titleWords,
@@ -1617,9 +1648,9 @@ onMounted(() => {
             ease: "power4.out",
             stagger: 0.15, // Smooth sequential animation
         },
-        "-=0.4"
+        "-=2.4"
     )
-    tl.from(checkerTitle.value, { opacity: 0, y: 50, duration: 1.5, ease: "power3.out" }, "-=0.8")
+    tl.from(checkerTitle.value, { opacity: 0, y: 50, duration: 1.5, ease: "power3.out" }, "-=2.8")
     tl.fromTo(
         textWords,
         { opacity: 0, y: 50, ease: "power3.out" },
@@ -1630,16 +1661,16 @@ onMounted(() => {
             ease: "power4.out",
             stagger: 0.10, // Smooth sequential animation
         },
-        "-=0.8"
+        "-=1.8"
     )
     // Text Animation (Slight Delay)
-    tl.from(checkerText.value, { opacity: 0, y: 50, duration: 1, ease: "power3.out" }, "-=1")
+    tl.from(checkerText.value, { opacity: 0, y: 50, duration: 1, ease: "power3.out" }, "-=2")
         .from(checkerBtn.value, {
             opacity: 0,
             y: 31,
             duration: 1,
             ease: "power3.out",
-        }, "-=0.5")
+        }, "-=1")
     const boxes = checkerBoxes.value?.children;
     tl.from(boxes, {
         y: 31,
@@ -1647,28 +1678,28 @@ onMounted(() => {
         duration: 1,
         ease: "power4.out",
         stagger: 0.5, // Adds a small delay between each box animation
-    });
-    const circles: any = svgRound.value?.querySelectorAll("circle")
+    }, "-=1" );
+    // const circles: any = svgRound.value?.querySelectorAll("circle")
 
-    // Select a random half of the circles
-    // const halfCircles = gsap.utils.shuffle(circles).slice(0, Math.ceil(circles.length / 2));
+    // // Select a random half of the circles
+    // // const halfCircles = gsap.utils.shuffle(circles).slice(0, Math.ceil(circles.length / 2));
 
-    // Animate only the selected half
-    gsap.to(circles, {
-        opacity: 0.3,
-        duration: 1.2,
-        scale: 1.4,
-        ease: "sine.inOut",
-        repeat: -1,
-        yoyo: true,
-        stagger: { amount: 1, from: "random" },
-    });
+    // // Animate only the selected half
+    // gsap.to(circles, {
+    //     opacity: 0.3,
+    //     duration: 1.2,
+    //     scale: 1.4,
+    //     ease: "sine.inOut",
+    //     repeat: -1,
+    //     yoyo: true,
+    //     stagger: { amount: 0.1, from: "random" },
+    // });
 });
 </script>
 
 
 <style lang="scss" scoped>
-.welcome {
+.checker {
     position: relative;
     width: 100%;
     height: 100vh;
@@ -1686,8 +1717,20 @@ onMounted(() => {
     z-index: -1;
 }
 
+/* Video blur overlay */
+.video-blur-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    // backdrop-filter: blur(24px);
+    // -webkit-backdrop-filter: blur(24px);
+}
+
 /* Optional overlay */
-.overlay {
+.overlay-checker {
     position: absolute;
     top: 0%;
     left: 0%;

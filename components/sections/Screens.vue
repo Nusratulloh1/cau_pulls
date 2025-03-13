@@ -346,7 +346,7 @@ onMounted(() => {
             duration: 0.5,
             ease: "power4.out",
             stagger: 0.15, // Smooth sequential animation
-            delay: 1.7,
+            delay: 0.5,
         }
     )
     initialTl
@@ -402,7 +402,7 @@ onMounted(() => {
                     y: -50,
                     duration: 0.5,
                     ease: "power3.out",
-                    stagger: -0.15,
+                    stagger: -0.10,
                     delay: 0.3,
                 }
             );
@@ -427,7 +427,7 @@ onMounted(() => {
                     y: 50,
                     duration: 0.5,
                     ease: "power3.out",
-                    stagger: 0.15,
+                    stagger: 0.10,
                     delay: 1,
                 },
                 1
@@ -454,7 +454,7 @@ onMounted(() => {
                     y: -50,
                     duration: 0.5,
                     ease: "power3.out",
-                    stagger: -0.15,
+                    stagger: -0.10,
                     delay: 0.3,
                 }
             );
@@ -510,7 +510,7 @@ onMounted(() => {
                     y: -50,
                     duration: 0.5,
                     ease: "power3.out",
-                    stagger: -0.15,
+                    stagger: -0.10,
                     delay: 0.3,
                 }
             );
@@ -526,7 +526,7 @@ onMounted(() => {
                     y: 0,
                     duration: 0.5,
                     ease: "power3.out",
-                    stagger: 0.15,
+                    stagger: 0.10,
                     delay: 1,
                 },
                 1
@@ -572,7 +572,7 @@ onMounted(() => {
                     y: -50,
                     duration: 0.5,
                     ease: "power3.out",
-                    stagger: -0.15,
+                    stagger: -0.10,
                     delay: 0.3,
                 }
             );
@@ -623,7 +623,7 @@ onMounted(() => {
                     y: 50,
                     duration: 0.5,
                     ease: "power3.out",
-                    stagger: 0.15,
+                    stagger: 0.10,
                     delay: 1,
                 },
                 1

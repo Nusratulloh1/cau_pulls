@@ -26,7 +26,7 @@
             </div>
         </nav>
     </div>
-    <div @click="toggleDropdown" class=" fixed w-full h-full top-0 left-0 z-[999]" v-if="isDropdownVisible"></div>
+    <div @click="toggleDropdown" class=" fixed w-full h-screen !top-0 left-0 z-[999]" v-if="isDropdownVisible"></div>
 </template>
 
 <script lang="ts" setup>

@@ -110,6 +110,8 @@ function goToSection(index: number) {
         scrollTween = null;
         currentSection.value = index;
         // play video
+        console.log(videoBg, 'videoBg');
+        
         videoBg.muted = true;
         videoBg.autoplay = true;
         videoBg.setAttribute("autoplay", "true");
@@ -143,6 +145,7 @@ function goToSection(index: number) {
 }
 
 onMounted(async () => {
+  gsap.ticker.lagSmoothing(0);
   await nextTick()
   if (!process.client || !container.value) return
 

@@ -93,8 +93,8 @@ onMounted(() => {
         return element.querySelectorAll(".word");
     };
 
-    const textWords = splitWords(text.value);
-    const downloadWords = splitWords(downloadText.value);
+    // const textWords = splitWords(text.value);
+    // const downloadWords = splitWords(downloadText.value);
 
     const tl = gsap.timeline({
         scrollTrigger: {
@@ -116,18 +116,24 @@ onMounted(() => {
             ease: "power4.out",
         }, "-=0.4") // Starts 0.4s after navWelcome animation starts
         // .from(text.value, { opacity: 0, y: 50, duration: 0.5, ease: "power3.out" }, "-=0.5")
-        .fromTo(
-            textWords,
-            { opacity: 0, y: "50%", ease: "power3.out" },
-            {
-                opacity: 1,
-                y: "0%",
-                duration: 0.5,
-                ease: "power4.out",
-                stagger: 0.07, // Smooth sequential animation
-            },
-            "-=0.4"
-        )
+        // .fromTo(
+        //     textWords,
+        //     { opacity: 0, y: "50%", ease: "power3.out" },
+        //     {
+        //         opacity: 1,
+        //         y: "0%",
+        //         duration: 0.5,
+        //         ease: "power4.out",
+        //         stagger: 0.07, // Smooth sequential animation
+        //     },
+        //     "-=0.4"
+        // )
+        .from(text.value, {
+            opacity: 0,
+            y: 100,
+            duration: 1.2,
+            ease: "power4.out",
+        }, "-=0.4") 
         .from(moreButton.value, {
             opacity: 0,
             y: 32,
@@ -146,18 +152,24 @@ onMounted(() => {
             duration: 1,
             ease: "power4.out",
         }, "-=0.8")
-        .fromTo(
-            downloadWords,
-            { opacity: 0, y: "50%" },
-            {
-                opacity: 1,
-                y: "0%",
-                duration: 0.5,
-                ease: "power4.out",
-                stagger: 0.07,
-            },
-            "-=0.4"
-        );
+        // .fromTo(
+        //     downloadWords,
+        //     { opacity: 0, y: "50%" },
+        //     {
+        //         opacity: 1,
+        //         y: "0%",
+        //         duration: 0.5,
+        //         ease: "power4.out",
+        //         stagger: 0.07,
+        //     },
+        //     "-=0.4"
+        // )
+        .from(downloadText.value, {
+            opacity: 0,
+            y: 100,
+            duration: 1,
+            ease: "power4.out",
+        }, "-=0.4") 
 });
 
 </script>

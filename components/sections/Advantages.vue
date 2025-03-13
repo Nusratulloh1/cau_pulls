@@ -24,13 +24,13 @@
                     class="text-[#39444C] text-lg md:text-2xl mt-8 md:mt-16" ref="textAd">
                     {{ slide.title }} {{ currentSlide }}
                 </p> -->
-                <div class="slides  overflow-hidden h-[370px] mt-8 md:mt-10">
+                <div class="slides   h-[370px] ">
                     <div v-for="slide in slides" :key="slide.id" :class="{ 'hidden': currentSlide !== slide.id }">
-                        <p class="text-[#39444C] text-lg md:text-2xl " ref="textAd">
-                            {{ slide.title }}
-                        </p>
+                        <p class="text-[#39444C] text-lg md:text-2xl innerText mt-8 md:mt-10" ref="textAd">
+                            {{ slide.title }} 
+                        </p> 
                         <!-- <template v-if="currentSlide === slide.id"> -->
-                        <div class="slide " ref="slideAd" @mouseenter="startAnimation(slide.id)"
+                        <div class="slide" :data-slide-id="slide.id" ref="slideAd" @mouseenter="startAnimation(slide.id)"
                             @mouseleave="stopAnimation(slide.id)">
                             <div class="flex items-center gap-2 arrow">
                                 <div
@@ -134,9 +134,13 @@ const slides = [
 ];
 
 const slideAnimations = ref<{ [key: number]: { animation: any, isPlaying: boolean } }>({});
+const contentAnimations = ref<{ [key: number]: gsap.core.Timeline }>({});
 
 // Function to start Lottie animation on hover
 const startAnimation = (slideId: number) => {
+    // Start content animation
+    animateContentIn(slideId);
+    
     if (!slideAnimations.value[slideId]) {
         // Initialize the animation if it doesn't exist
         const container = document.getElementById(`lottie-container-${slideId}`);
@@ -163,12 +167,45 @@ const startAnimation = (slideId: number) => {
     }
 };
 
+// Function to animate content on hover
+const animateContentIn = (slideId: number) => {
+    const slide = document.querySelector(`.slide[data-slide-id="${slideId}"] .content`);
+    
+    if (!slide) return;
+    
+    if (!contentAnimations.value[slideId]) {
+        contentAnimations.value[slideId] = gsap.timeline()
+            .set(slide, { visibility: 'visible' })
+            .to(slide, {
+                opacity: 1,
+                x: 0,
+                scale: 1,
+                duration: 0.5,
+                ease: "power2.out"
+            });
+    } else {
+        contentAnimations.value[slideId].play();
+    }
+};
+
+// Function to animate content out on mouse leave
+const animateContentOut = (slideId: number) => {
+    const slide = document.querySelector(`.slide[data-slide-id="${slideId}"] .content`);
+    
+    if (!slide || !contentAnimations.value[slideId]) return;
+    
+    contentAnimations.value[slideId].reverse();
+};
+
 // Function to stop Lottie animation when not hovering
 const stopAnimation = (slideId: number) => {
     if (slideAnimations.value[slideId]) {
         slideAnimations.value[slideId].isPlaying = false;
         slideAnimations.value[slideId].animation.stop();
     }
+    
+    // Stop content animation
+    animateContentOut(slideId);
 };
 
 // Clean up animations on component unmount
@@ -216,8 +253,8 @@ const goToNextSlide = () => {
         if (slideElements.length > 0) {
             const prevSlideComponent = slideElements[prevSlide - 1].querySelector('.slide');
             const nextSlideComponent = slideElements[currentSlide.value - 1].querySelector('.slide');
-            const prevTextElement = slideElements[prevSlide - 1].querySelector('p');
-            const nextTextElement = slideElements[currentSlide.value - 1].querySelector('p');
+            const prevTextElement = slideElements[prevSlide - 1].querySelector('p.innerText');
+            const nextTextElement = slideElements[currentSlide.value - 1].querySelector('p.innerText');
 
             // Create word spans only if elements exist
             const prevTextWords = prevTextElement ? splitWords(prevTextElement) : [];
@@ -232,11 +269,12 @@ const goToNextSlide = () => {
                         {
                             opacity: 0,
                             y: 50,
-                            duration: 0.4,
+                            duration: 0.1,
                             ease: "power1.in", // Accelerate
                             stagger: 0.10, // Forward animation
                         }, 0
                     );
+                    
                 }
 
                 gsap.to(prevSlideComponent, {
@@ -254,13 +292,13 @@ const goToNextSlide = () => {
                 gsap.fromTo(nextSlideComponent,
                     {
                         opacity: 0,
-                        y: 150,
+                        y: 200,
                     },
                     {
                         opacity: 1,
                         y: 0,
-                        duration: 1,
-                        delay: 1,
+                        duration: 1.2,
+                        delay: 0.8,
                         ease: "power2.out"
                     }
                 );
@@ -276,8 +314,8 @@ const goToNextSlide = () => {
                         y: 0,
                         duration: 0.5,
                         ease: "power2.out", // Smooth
-                        stagger: 0.15, // Forward animation with slow down
-                        delay: 0.15
+                        stagger: 0.10, // Forward animation with slow down
+                        delay: 0.10
                     }, 1
                 );
             }
@@ -335,9 +373,9 @@ const goToPrevSlide = () => {
                         {
                             opacity: 0,
                             y: 50,
-                            duration: 0.4,
+                            duration: 0.1,
                             ease: "power1.in", // Accelerate
-                            stagger: 0.10, // Forward animation
+                            stagger: 0, // Forward animation
                         }, 0
                     );
                 }
@@ -370,7 +408,7 @@ const goToPrevSlide = () => {
                         opacity: 1,
                         y: 0,
                         duration: 1,
-                        delay: 1,
+                        delay: 0.8,
                         ease: "power2.out" // Slowing down easing
                     }
                 );
@@ -386,9 +424,9 @@ const goToPrevSlide = () => {
                         y: 0,
                         duration: 0.5,
                         ease: "power2.out", // Smooth
-                        stagger: 0.15, // Forward animation with slow down
-                        delay: 1
-                    }, 1
+                        stagger: 0.10, // Forward animation with slow down
+                        delay: 0.5
+                    }, 0.8
                 );
             }
         } else {
@@ -581,11 +619,11 @@ onMounted(() => {
             ease: "power4.out",
             stagger: 0.11, // Smooth sequential animation
         },
-        "-=0.4"
+        "-=0.6"
     );
 
     if (titleAd.value) {
-        tl.from(titleAd.value, { opacity: 0, y: 50, duration: 2, ease: "power3.out" }, "-=0.6");
+        tl.from(titleAd.value, { opacity: 0, y: 50, duration: 2, ease: "power3.out" }, "-=0.8");
     }
 
     tl.fromTo(
@@ -598,7 +636,7 @@ onMounted(() => {
             ease: "power4.out",
             stagger: 0.10, // Smooth sequential animation
         },
-        "-=0.8"
+        "-=1"
     );
 
     // Text Animation (Slight Delay)
@@ -612,13 +650,15 @@ onMounted(() => {
                 duration: 0.8,
                 ease: "power3.out",
                 delay: 0.2
-            }
+            },
+        "-=1.2"
         );
     }
 
     const slide: any = slideAd.value?.[0];
     if (slide) {
-        tl.from(slide, { opacity: 0, y: 509, duration: 1, ease: "power4.out" });
+        tl.from(slide, { opacity: 0, y: 509, duration: 1, ease: "power4.out" },
+        "-=0.4");
     }
 });
 
@@ -657,7 +697,7 @@ onUnmounted(() => {
         height: 300px;
         border-radius: 24px;
         transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out, opacity 0.3s ease-in-out;
-
+        z-index: 9999;
         img {
             width: 100%;
             height: 100%;
@@ -681,10 +721,13 @@ onUnmounted(() => {
     }
 
     .content {
+        // visibility: hidden;
         display: none;
         opacity: 0;
-        transform: translateY(20px) scale(0.98);
-        transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+        transform: translateX(-60px) scale(0.95);
+        transition: none;
+        position: relative;
+        z-index: 1;
     }
 
     .arrow {
@@ -692,10 +735,13 @@ onUnmounted(() => {
     }
 
     &:hover {
+        .img-container {
+            transform: scale(0.96);
+            transition: transform 0.4s ease-out;
+        }
+        
         .content {
             display: block !important;
-            opacity: 1;
-            transform: translateY(0) scale(1);
         }
 
         .arrow {
