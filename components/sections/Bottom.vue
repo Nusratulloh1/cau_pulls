@@ -194,7 +194,7 @@ onMounted(() => {
             duration: 0.5,
             ease: "power4.out",
             stagger: 0.15, // Smooth sequential animation
-            delay: 1.7,
+            delay: 0,
         }
     )
     tl

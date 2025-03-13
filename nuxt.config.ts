@@ -44,6 +44,10 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-
+  nitro: {
+    prerender: {
+      crawlLinks: false,
+    }
+  },
   compatibilityDate: '2025-01-08',
 });
