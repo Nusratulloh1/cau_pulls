@@ -16,7 +16,7 @@
 
 
         <div class="overlay-checker" >
-            <div ref="checkerContainer" class= "will-change-transform flex w-full items-center justify-between flex-col md:flex-row p-4 sm:px-12">
+            <div ref="checkerContainer" class= " flex w-full items-center justify-between flex-col md:flex-row p-4 sm:px-12">
                 <div class="left text-center md:text-start max-w-[396px]">
                     <h3 ref="checkerTitle" class=" text-[32px] left-[38.4px] md:text-5xl md:leading-[57.6px]">
                         Проверка симптомов с помощью ИИ
