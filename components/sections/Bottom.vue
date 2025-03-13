@@ -3,8 +3,8 @@
         <Navbar logo-type="blue" />
         <div class="overlay w-full px-4 pb-20" ref="bottomContainer">
             <h2 ref="titleBottom">
-                <mark>Современные технологии</mark> и <mark>забота</mark>, чтобы сделать медицину <mark>ближе</mark>
-                <mark>и удобнее</mark> для вас
+                <mark> Современные  </mark><mark>технологии</mark>   и <mark> забота</mark>, чтобы сделать медицину <mark> ближе </mark>
+                <mark> и  удобнее</mark>  для вас
             </h2>
             <div ref="btnsBottom" class="flex items-center md:justify-center mt-5 sm:mt-12 gap-3">
                 <button ref="downloadApple" class=" bg-[#62DCF2] rounded-[22px] font-bold text-white p-3 sm:p-5 ">

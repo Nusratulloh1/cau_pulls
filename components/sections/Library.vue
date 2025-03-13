@@ -47,8 +47,8 @@
                         </p>
                     </div>
                 </div>
-                <div class="box">
-                    <div class="image">
+                <div class="box ">
+                    <div class="image !hidden sm:!block">
                         <img src="@/assets/images/liblary/4.png" alt="4">
                         <p>
                             Ишемическая болезнь сердца
@@ -61,8 +61,8 @@
                         </p>
                     </div>
                 </div>
-                <div class="box">
-                    <div class="image">
+                <div class="box ">
+                    <div class="image !hidden sm:!block">
                         <img src="@/assets/images/liblary/6.png" alt="4">
                         <p>
                             Сахарный диабет

@@ -2,11 +2,11 @@
     <div class="absolute w-full top-0 z-[99999]">
         <nav class=" flex items-center justify-between py-4 sm:py-8 px-4 md:p-12">
             <div ref="navLogo">
-                <CLogo :type="logoType" v-if="props.logoVisible" class="w-16 h-16 !fill-none" />
+                <CLogo :type="logoType" v-if="props.logoVisible" class=" w-12 h-12 sm:w-16 h-16 !fill-none" />
             </div>
             <div class="relative" ref="navBtn">
                 <button @click="toggleDropdown" :class="{ ' !border-[#39444C33] !text-[#39444C]': logoType == 'blue' }"
-                    class=" flex items-center gap-1.5 rounded-[20px] capitalize text-white font-semibold border border-[#FFFFFF33] py-3 px-6 hover:bg-white hover:text-[#62DCF2]">
+                    class=" flex items-center gap-1.5 rounded-[20px] capitalize text-white font-semibold border border-[#FFFFFF33] py-2 sm:py-3 px-4 sm:px-6 hover:bg-white hover:text-[#62DCF2]">
                     рус
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
@@ -15,7 +15,7 @@
                 </button>
                 <transition name="fade" mode="out-in">
                     <div v-if="isDropdownVisible"
-                        class="dropdown-menu absolute right-0 mt-2 w-28 bg-white shadow-lg rounded-md">
+                        class="dropdown-menu absolute right-0 sm:mt-2 w-28 bg-white shadow-lg rounded-md">
                         <ul>
                             <li v-for="lang in ['Uzbek', 'English', 'Russian']"
                                 class="p-2 hover:bg-gray-100 text-black cursor-pointer  hover:text-[#62DCF2]">{{ lang }}

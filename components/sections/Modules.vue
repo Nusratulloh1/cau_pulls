@@ -24,13 +24,13 @@
         </div>
         <div class="absolute top-0 left-0 w-full h-full moduleDiv" ref="images">
 
-            <img ref="image1" class="absolute top-24 md:top-0 left-[40%] w-[200px] md:w-[19vw] mx-auto"
+            <img ref="image1" class="absolute top-24 md:top-0 left-[28%] sm:left-[40%] w-[200px] md:w-[19vw] mx-auto"
                 src="@/assets/images/modules/3.png" alt="28vw">
             <img ref="image2" class="absolute left-0 top-[23vh] md:top-[10vh] w-[130px] md:w-[24vw]"
                 src="@/assets/images/modules/1.png" alt="28vw">
             <img ref="image3" class="absolute left-0 bottom-[15vh]  md:bottom-[3vh] w-[130px] md:w-[21vw] md:ml-[5vw]"
                 src="@/assets/images/modules/5.png" alt="28vw">
-            <img ref="image4" class="absolute bottom-[5vh] left-[40%] md:bottom-[3vh] w-[200px] md:w-[19vw] m-auto"
+            <img ref="image4" class="absolute bottom-[5vh] left-[28%] sm:left-[40%] md:bottom-[3vh] w-[200px] md:w-[19vw] m-auto"
                 src="@/assets/images/modules/4.png" alt="28vw">
             <img ref="image5" class="absolute top-[23vh] md:top-[10vh] right-0 w-[130px] md:w-[25vw] m-auto"
                 src="@/assets/images/modules/2.png" alt="28vw">
