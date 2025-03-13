@@ -174,7 +174,7 @@ const animateContentIn = (slideId: number) => {
     if (!slide) return;
     
     if (!contentAnimations.value[slideId]) {
-        contentAnimations.value[slideId] = gsap.timeline()
+        contentAnimations.value[slideId] = gsap.timeline({ force3D: true, transformPerspective: 1000 })
             .set(slide, { visibility: 'visible' })
             .to(slide, {
                 opacity: 1,
@@ -244,6 +244,7 @@ const goToNextSlide = () => {
 
         // Animation for slide change
         const tl = gsap.timeline({
+             force3D: true, transformPerspective: 1000,
             onComplete: () => {
                 isAnimating = false;
             }
@@ -344,6 +345,7 @@ const goToPrevSlide = () => {
 
         // Animation for slide change
         const tl = gsap.timeline({
+            force3D: true, transformPerspective: 1000,
             onComplete: () => {
                 isAnimating = false;
             }
@@ -596,8 +598,9 @@ onMounted(() => {
     });
 
     const tl = gsap.timeline({
+        force3D: true, transformPerspective: 1000,
         scrollTrigger: {
-            trigger: advantageContainer.value,
+            trigger: advantageContainer.value
         },
     });
 

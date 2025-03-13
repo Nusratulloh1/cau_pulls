@@ -1,22 +1,22 @@
 <template>
     <div id="section1" class="h-screen checker">
         <!-- Background Video -->
-        <video muted class="video-bg" playsinline ref="videoRef">
+        <video muted class="video-bg will-change-transform" playsinline ref="videoRef">
             <source src="@/assets/videos/4.mp4" type="video/mp4" />
             Your browser does not support the video tag.
         </video>
         
         <!-- Blur overlay for video -->
-        <div class="video-blur-overlay" ref="videoBlurOverlay"></div>
+        <div class="video-blur-overlay will-change-transform" ref="videoBlurOverlay"></div>
 
 
-        <div ref="checkerNav">
+        <div ref="checkerNav" class="will-change-transform">
             <Navbar logo-type="blur" />
         </div>
 
 
         <div class="overlay-checker" >
-            <div ref="checkerContainer" class="flex w-full items-center justify-between flex-col md:flex-row p-4 sm:px-12">
+            <div ref="checkerContainer" class= "will-change-transform flex w-full items-center justify-between flex-col md:flex-row p-4 sm:px-12">
                 <div class="left text-center md:text-start max-w-[396px]">
                     <h3 ref="checkerTitle" class=" text-[32px] left-[38.4px] md:text-5xl md:leading-[57.6px]">
                         Проверка симптомов с помощью ИИ
@@ -71,7 +71,7 @@
                 </div>
             </div>
         </div>
-        <svg ref="svgRound" class=" mx-auto pl-10 w-[60vw] fade" viewBox="0 0 916 900" fill="none"
+        <svg ref="svgRound" class="will-change-transform mx-auto pl-10 w-[60vw] fade" viewBox="0 0 916 900" fill="none"
             xmlns="http://www.w3.org/2000/svg">
             <circle cx="458" cy="4" r="2" fill="#D1CDCE" />
             <circle cx="458" cy="17" r="2" fill="#D1CDCE" />
@@ -1591,6 +1591,7 @@ onMounted(() => {
     const titleWords = splitWords(checkerTitle.value);
     const textWords = splitWords(checkerText.value);
     const tl = gsap.timeline({
+        force3D: true, transformPerspective: 1000,
         scrollTrigger: {
             trigger: checkerContainer.value,
             // start: "top 85%", // Trigger when 85% of the section is in view

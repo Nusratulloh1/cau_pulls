@@ -11,14 +11,14 @@
 
 
         </div>
-        <Navbar ref="navLib" logo-type="blue" />
-        <div ref="liblaryContainer" class=" text-center pt-16 xl:pt-10 2xl:pt-0 container px-4 md:px-0 liblaryDiv">
+        <Navbar ref="navLib" class="will-change-transform" logo-type="blue" />
+        <div ref="liblaryContainer" class="will-change-transform text-center pt-16 xl:pt-10 2xl:pt-0 container px-4 md:px-0 liblaryDiv">
             <div class=" max-w-[668px] mx-auto">
                 <h2 ref="titleLib"
-                    class=" text-[#39444C] text-2xl sm:text-2xl md:text-4xl 2xl:text-5xl 2xl:leading-[57px]">
+                    class="will-change-transform text-[#39444C] text-2xl sm:text-2xl md:text-4xl 2xl:text-5xl 2xl:leading-[57px]">
                     Медицинская библиотека и рекомендации врачей
                 </h2>
-                <p ref="textLib" class=" text-sm sm:text-base xl:text-lg text-[#39444C] mt-2 sm:mt-4">
+                <p ref="textLib" class=" will-change-transform text-sm sm:text-base xl:text-lg text-[#39444C] mt-2 sm:mt-4">
                     460+ заболеваний, структурированная информация и видео от экспертов, которые помогут лучше понять
                     своё состояние
                 </p>
@@ -100,8 +100,9 @@ onMounted(() => {
     const titleWords = splitWords(titleLib.value);
     const textWords = splitWords(textLib.value);
     const tl = gsap.timeline({
+        force3D: true, transformPerspective: 1000,
         scrollTrigger: {
-            trigger: liblaryContainer.value,
+            trigger: liblaryContainer.value
             // start: "top 85%",
             // toggleActions: "play none none reverse",
         },
@@ -160,6 +161,7 @@ onMounted(() => {
         display: flex;
         flex-direction: column;
         gap: 22px;
+        will-change: transform;
 
         .image {
             border-radius: 26px;

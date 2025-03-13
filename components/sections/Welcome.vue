@@ -5,14 +5,14 @@
             <source src="@/assets/videos/1.mp4" type="video/mp4" />
             Your browser does not support the video tag.
         </video>
-        <div ref="navWelcome">
+        <div ref="navWelcome" class="will-change-transform">
             <Navbar logo-type="blur" />
         </div>
-        <div class="overlay" ref="welcomeContainer">
+        <div class="overlay will-change-transform" ref="welcomeContainer">
             <div
                 class="px-4 sm:px-12 h-full flex flex-wrap lg:flex-nowrap justify-center items-center lg:justify-between lg:items-end relative">
                 <div class=" text-center sm:text-start">
-                    <div ref="title">
+                    <div ref="title" class="will-change-transform">
                         <h4 class=" text-xl sm:text-[32px] opacity-50">
                             CAU Puls
                         </h4>
@@ -20,23 +20,23 @@
                             Добро пожаловать!
                         </h2>
                     </div>
-                    <p ref="text" class="text-base sm:text-xl mt-3 sm:mt-5 w-full max-w-[534px]">
+                    <p ref="text" class="text-base sm:text-xl mt-3 sm:mt-5 w-full max-w-[534px] will-change-transform">
                         Искусственный интеллект и телемедицина для заботы о вашем здоровье: проверка симптомов,
                         рекомендации
                         и поддержка — всё в одном приложении
                     </p>
                     <button ref="moreButton"
-                        class=" bg-white rounded-[22px] font-bold text-[#39444C] sm:text-xl px-4 sm:px-9 py-3 sm:py-4 mt-6 sm:mt-10">
+                        class="will-change-transform bg-white rounded-[22px] font-bold text-[#39444C] sm:text-xl px-4 sm:px-9 py-3 sm:py-4 mt-6 sm:mt-10">
                         Узнать больше
                     </button>
                 </div>
                 <div class=" absolute lg:relative bottom-4 lg:bottom-0 flex items-center flex-wrap gap-4 lg:block ">
-                    <p ref="downloadText" class=" w-[114px] sm:w-auto">
+                    <p ref="downloadText" class=" w-[114px] sm:w-auto will-change-transform">
                         Скaчать можно тут
                     </p>
                     <div class="flex items-center lg:mt-6 gap-3">
                         <button ref="downloadApple"
-                            class=" bg-white rounded-[22px] font-bold text-[#39444C] p-3 sm:px-9  sm:py-4 ">
+                            class=" bg-white rounded-[22px] font-bold text-[#39444C] p-3 sm:px-9 will-change-transform sm:py-4 ">
                             <svg class=" w-20 h-5 sm:w-auto sm:h-auto" width="98" height="23" viewBox="0 0 98 23"
                                 fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -49,7 +49,7 @@
 
                         </button>
                         <button ref="donwloadPlay"
-                            class=" bg-white rounded-[22px] font-bold text-[#39444C] p-3 sm:px-9  sm:py-4 ">
+                            class=" bg-white rounded-[22px] font-bold text-[#39444C] p-3 sm:px-9 will-change-transform sm:py-4 ">
                             <svg class=" w-20 h-5 sm:w-auto sm:h-auto" width="100" height="22" viewBox="0 0 100 22"
                                 fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
@@ -97,8 +97,9 @@ onMounted(() => {
     // const downloadWords = splitWords(downloadText.value);
 
     const tl = gsap.timeline({
+         force3D: true, transformPerspective: 1000,
         scrollTrigger: {
-            trigger: welcomeContainer.value,
+            trigger: welcomeContainer.value
         },
     });
 

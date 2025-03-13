@@ -2,21 +2,21 @@
     <div class="bg-white h-[100vh] overflow-hidden">
         <div ref="scrollContainerScreens" class="h-screen w-full relative">
             <div class="absolute w-full top-0 line">
-                <svg ref="lineSc" class="mx-auto" width="14" height="120" viewBox="0 0 14 120" fill="none"
+                <svg ref="lineSc" class="mx-auto will-change-transform" width="14" height="120" viewBox="0 0 14 120" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <line opacity="0.5" x1="6.5" y1="115.045" x2="6.5" y2="-284.955" stroke="#62DCF2"
                         stroke-dasharray="4 4" />
                     <circle cx="7" cy="113" r="6" fill="white" stroke="#62DCF2" stroke-width="2" />
                 </svg>
 
-                <div class="text-center p-4 md:p-12 " ref="screenContainer">
+                <div class="text-center p-4 md:p-12 will-change-transform" ref="screenContainer">
                     <!-- hide on scroll slide out -->
                     {{ currentStep }}
-                    <h2 ref="titleSc">
+                    <h2 ref="titleSc" class="will-change-transform">
                         Самая полная картина вашего <mark>здоровья</mark>, доступная как никогда раньше
                     </h2>
                     <!-- hide on scroll slide out -->
-                    <div ref="svgSc" class="w-full mt-6 sm:mt-16">
+                    <div ref="svgSc" class="w-full mt-6 sm:mt-16 will-change-transform">
 
                         <svg class="w-[100px] md:w-[162px] mx-auto" width="162" height="50" viewBox="0 0 162 50"
                             fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -68,14 +68,14 @@
                     </div>
 
                     <!-- shown on scroll slide in titleSc2 -->
-                    <h2 ref="titleSc2" class="hidden">
+                    <h2 ref="titleSc2" class="hidden will-change-transform">
                         Поймите свое здоровье с <br> уверенностью
                     </h2>
                     <!-- <h2 ref="titleSc3" class="hidden">
                         Ваш персональный <br> медицинский помощник
                     </h2> -->
                     <!-- scale 60% move to top on scroll -->
-                    <div ref="imgSc" class="w-[90%] sm:w-[50%] lg:w-[30%] 2xl:w-[23%] mx-auto mt-10 md:mt-16">
+                    <div ref="imgSc" class="will-change-transform w-[90%] sm:w-[50%] lg:w-[30%] 2xl:w-[23%] mx-auto mt-10 md:mt-16">
                         <transition-group name="fade" tag="div" class="relative">
                             <img v-for="slide in slides" :key="slide.id" v-show="currentSlide === slide.id"
                                 class="w-full absolute top-0 left-0" :src="slide.img" alt="screen">
@@ -83,7 +83,7 @@
                     </div>
 
                     <div ref="buttonsSc"
-                        class=" absolute bottom-[15%] md:bottom-[23%] left-0 flex w-full justify-center  hidden p-4 md:p-12">
+                        class="will-change-transform absolute bottom-[15%] md:bottom-[23%] left-0 flex w-full justify-center  hidden p-4 md:p-12">
                         <div class="flex items-center justify-center gap-3    roundedButtons ">
                             <button class=" shrink-0" @click="changeSlide(slide.id)" v-for="slide in slides"
                                 :class="{ active: slide.id == currentSlide }">{{
@@ -249,6 +249,7 @@ watch(() => props.currentSection, (value) => {
 onMounted(() => {
     // Create initial animations for the section
     const initialTl = gsap.timeline({
+        force3D: true, transformPerspective: 1000,
         scrollTrigger: {
             trigger: screenContainer.value
         }
@@ -385,6 +386,7 @@ onMounted(() => {
     watch(() => currentStep.value, (newStep, oldStep) => {
         // Create a new timeline for each step transition
         const stepTl = gsap.timeline({
+             force3D: true, transformPerspective: 1000,
             onComplete: () => {
                 isAnimating.value = false;
             }
@@ -649,6 +651,7 @@ const changeSlide = (slideId: number) => {
 
         // Create animation timeline
         currentImageAnimation = gsap.timeline({
+            force3D: true, transformPerspective: 1000,
             onComplete: () => {
                 // Update the currentSlide after animation completes
                 currentSlide.value = slideId;

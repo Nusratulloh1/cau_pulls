@@ -1,13 +1,13 @@
 <template>
     <div class=" h-screen bg-white flex items-center justify-center">
         <Navbar logo-type="blue" />
-        <div class="overlay w-full px-4 pb-20" ref="bottomContainer">
-            <h2 ref="titleBottom">
+        <div class="overlay w-full px-4 pb-20 will-change-transform" ref="bottomContainer">
+            <h2 ref="titleBottom" class="will-change-transform">
                 <mark> Современные  </mark><mark>технологии</mark>   и <mark> забота</mark>, чтобы сделать медицину <mark> ближе </mark>
                 <mark> и  удобнее</mark>  для вас
             </h2>
-            <div ref="btnsBottom" class="flex items-center md:justify-center mt-5 sm:mt-12 gap-3">
-                <button ref="downloadApple" class=" bg-[#62DCF2] rounded-[22px] font-bold text-white p-3 sm:p-5 ">
+            <div ref="btnsBottom" class="will-change-transform flex items-center md:justify-center mt-5 sm:mt-12 gap-3">
+                <button ref="downloadApple" class="will-change-transform bg-[#62DCF2] rounded-[22px] font-bold text-white p-3 sm:p-5 ">
                     <svg class=" w-20 h-5 sm:w-auto sm:h-auto" width="99" height="23" viewBox="0 0 99 23" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -20,7 +20,7 @@
 
 
                 </button>
-                <button ref="donwloadPlay" class=" bg-[#62DCF2] rounded-[22px] font-bold text-white p-3 sm:p-5 ">
+                <button ref="donwloadPlay" class="will-change-transform bg-[#62DCF2] rounded-[22px] font-bold text-white p-3 sm:p-5 ">
                     <svg class=" w-20 h-5 sm:w-auto sm:h-auto" width="101" height="22" viewBox="0 0 101 22" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" clip-rule="evenodd"
@@ -37,9 +37,9 @@
 
         </div>
         <footer ref="footerBottom"
-            class="absolute bottom-12 w-full flex flex-wrap gap-4 md:items-center justify-between conatiner mx-auto px-4 md:px-12">
+            class="will-change-transform absolute bottom-12 w-full flex flex-wrap gap-4 md:items-center justify-between conatiner mx-auto px-4 md:px-12">
             <button ref="moreButton"
-                class=" bg-[#39444C] rounded-[22px] font-bold text-white sm:text-xl px-4 sm:px-9 py-3 !leading-0 sm:py-4">
+                class="will-change-transform bg-[#39444C] rounded-[22px] font-bold text-white sm:text-xl px-4 sm:px-9 py-3 !leading-0 sm:py-4">
                 Узнать больше
             </button>
             <p class="text-black text-base opacity-60 max-w-[339px] text-center hidden md:block">
@@ -99,6 +99,7 @@ const bottomContainer = ref(null);
 
 onMounted(() => {
     const tl = gsap.timeline({
+        force3D: true, transformPerspective: 1000,
         scrollTrigger: {
             trigger: bottomContainer.value,
             // start: "top 85%", // Trigger when 85% of the section is in view

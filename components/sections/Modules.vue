@@ -1,6 +1,6 @@
 <template>
     <div class="bg-white h-screen flex items-center justify-center relative" >
-        <div class=" absolute top-0 line moduleDiv" ref="lineSvg">
+        <div class=" absolute top-0 line moduleDiv will-change-transform" ref="lineSvg">
             <svg class="h-[40vh] md:h-[30vh] xl:h-[35vh] 2xl:h-[40vh]" width="14" height="325" viewBox="0 0 14 325"
                 fill="none" xmlns="http://www.w3.org/2000/svg">
                 <line opacity="0.5" x1="6.5" y1="320.045" x2="6.5" y2="-79.9546" stroke="#62DCF2"
@@ -14,11 +14,11 @@
             <Navbar logo-type="blue" />
         </div>
 
-        <div class=" text-center px-5 moduleDiv" ref="modulesContainer">
+        <div class=" text-center px-5 moduleDiv will-change-transform" ref="modulesContainer">
             <h2 ref="title" class=" text-[#39444C] text-2xl md:text-5xl max-w-[560px] mx-auto">
                 Все возможности для вашего здоровья
             </h2>
-            <p ref="text" class=" max-w-[464px] text-[#39444C] mx-auto mt-2 sm:mt-4 text-sm md:text-lg">
+            <p ref="text" class=" max-w-[464px] text-[#39444C] mx-auto mt-2 sm:mt-4 text-sm md:text-lg will-change-transform">
                 Инновации и технологии, которые делают заботу о здоровье простой и доступной каждому
             </p>
         </div>
@@ -64,8 +64,9 @@ const modulesContainer = ref(null);
 onMounted(() => {
 
     const tl = gsap.timeline({
+        force3D: true, transformPerspective: 1000,
         scrollTrigger: {
-            trigger: modulesContainer.value,
+            trigger: modulesContainer.value
             // start: "top 85%",
             // toggleActions: "play none none reverse",
         },

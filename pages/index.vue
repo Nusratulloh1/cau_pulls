@@ -61,6 +61,7 @@ function goToSection(index: number) {
     scrollTween = gsap.to(window, {
       scrollTo: { y: index * window.innerHeight, autoKill: false },
       duration: 1.4,
+      force3D: true, transformPerspective: 1000,
       ease: 'power2.out',
       onComplete: () => {
         scrollTween = null;
@@ -73,6 +74,7 @@ function goToSection(index: number) {
   else if (index == 3 || index == 6) { // 3 || 6
     gsap.to(index == 3 ? moduleDivs : liblaryDiv, {
       opacity: 0,
+      force3D: true, transformPerspective: 1000,
       y: -515.48,
       duration: 1,
       ease: "power4.in",
@@ -80,6 +82,7 @@ function goToSection(index: number) {
     scrollTween = gsap.to(window, {
       scrollTo: { y: index * window.innerHeight, autoKill: false },
       duration: 2.5,
+      force3D: true, transformPerspective: 1000,
       ease: "expo.inOut",
       onComplete: () => {
         scrollTween = null;
@@ -89,6 +92,7 @@ function goToSection(index: number) {
     });
     gsap.to(index == 3 ? moduleDivs : liblaryDiv, {
       opacity: 1,
+      force3D: true, transformPerspective: 1000,
       y: 0,
       duration: 0.8,
       ease: undefined,
@@ -98,6 +102,7 @@ function goToSection(index: number) {
   else if (index == 4) {
     gsap.to(advantage, {
       opacity: 0,
+      force3D: true, transformPerspective: 1000,
       y: -window.innerHeight * 1.2, // Adjusted for smoother motion
       duration: 2, // Slightly longer duration for fluidity
       ease: "power3.inOut", // Smoother easing effect
@@ -105,6 +110,7 @@ function goToSection(index: number) {
     scrollTween = gsap.to(window, {
       scrollTo: { y: index * window.innerHeight, autoKill: false },
       duration: 3,
+      force3D: true, transformPerspective: 1000,
       ease: "expo.inOut",
       onComplete: () => {
         scrollTween = null;
@@ -122,6 +128,7 @@ function goToSection(index: number) {
     gsap.to(advantage, {
       opacity: 1,
       y: 0,
+      force3D: true, transformPerspective: 1000,
       duration: 1,
       ease: undefined,
       delay: 3,
@@ -135,6 +142,7 @@ function goToSection(index: number) {
       scrollTo: { y: index * window.innerHeight, autoKill: false },
       duration: 1.4,
       ease: 'power2.out',
+      force3D: true, transformPerspective: 1000,
       onComplete: () => {
         scrollTween = null
         currentSection.value = index

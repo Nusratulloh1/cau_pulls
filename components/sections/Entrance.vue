@@ -1,22 +1,22 @@
 <template>
     <div class="h-screen bg-[#62DCF2] relative">
-        <div ref="navBarEntr" class=" absolute top-0 w-full z-[99999991]">
+        <div ref="navBarEntr" class=" absolute top-0 w-full z-[99999991] will-change-transform">
             <Navbar :logo-visible="false" />
         </div>
         <img class="m-auto object-cover pt-[12vh] sm:pt-0 h-[83vh]  sm:h-screen " src="@/assets/images/bg-round.png"
             alt="rounder" ref="rounder">
         <div class="absolute top-0 w-full h-full flex items-center justify-center">
             <div class="text-center sm:mt-16">
-                <div ref="logo">
+                <div ref="logo" class="will-change-transform">
                     <CLogo class=" w-[102px] sm:w-[130px] mx-auto" />
                 </div>
-                <p ref="title" class=" mt-0 sm:mt-6 text-white font-medium text-base sm:text-2xl max-w-[297px] mx-auto">
+                <p ref="title" class="will-change-transform mt-0 sm:mt-6 text-white font-medium text-base sm:text-2xl max-w-[297px] mx-auto">
                     Ваш надёжный партнёр <br> в вопросах здоровья
                 </p>
             </div>
         </div>
         <div class="absolute bottom-[14%] sm:bottom-[11%] z-[999] w-full flex justify-center">
-            <button @click="navigateSection" class="mx-auto bg-[#7FE0F1] py-5 px-7 rounded-[20px] mt-2" ref="button">
+            <button @click="navigateSection" class="mx-auto bg-[#7FE0F1] py-5 px-7 rounded-[20px] mt-2 will-change-transform" ref="button">
                 <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M1 1L7 7L13 1" stroke="white" stroke-width="1.5" stroke-linecap="round"
                         stroke-linejoin="round" />
@@ -47,7 +47,7 @@ const navigateSection = () => {
 onMounted(() => {
     // GSAP logo animation: fade in and scale up
     if (logo.value) {
-        const tl = gsap.timeline({ ease: 'power3.out', force3D: true });
+        const tl = gsap.timeline({ ease: 'power3.out', force3D: true, transformPerspective: 1000 });
 
         tl.from(logo.value, {
             y: 75,
